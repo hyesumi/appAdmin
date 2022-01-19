@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 공통으로 쓰이는 script 파일을넣는다.-->
+<th:block th:fragment="scriptFragment">
+
+
+    <!-- Bootstrap core JavaScript-->
+
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+    <script th:src="@{/js/demo/jquery.twbsPagination.js}"></script>
+    <script th:src="@{/js/demo/handlebars.helper.js}"></script>
+    <script th:src="@{/js/demo/handlebars-v4.0.11.js}"></script>
+
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+
+    <script th:src="@{/js/demo/chart-area-demo.js}"></script>
+    <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/chart-area-demo.js}"></script>
+    <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+    <script>
+
+        var minute = 29;
+        var second = 59;
+
+        function calSessionTime(){
+            var time = "";
+
+            if(second < 10){
+                time = minute + ":0" +second;
+            } else {
+                time = minute + ":" +second;
+            }
+
+            $('#sessionTime').text(time);
+
+            if(second == 0){
+                minute--;
+                second = 59;
+            } else {
+                second--;
+            }
+        }
+
+        const loginCheck = setInterval(function() {
+            calSessionTime();//호출될 코드
+        }, 1000); //delay 시간
+
+    </script>
+</th:block>
+</html>
