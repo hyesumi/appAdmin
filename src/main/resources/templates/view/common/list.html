@@ -39,7 +39,7 @@
                                                 <div class="date_select_group">
                                                     <div class="date_div">
                                                         <div class="input-group driveScoreDatepicker">
-                                                            <input type="text" class="form-control" id="startDt">
+                                                            <input type="text" class="form-control" id="start_dt">
                                                             <span class="input-group-addon">
 														   <span class="glyphicon glyphicon-calendar"></span>
 														</span>
@@ -274,17 +274,7 @@
         });
     }
 
-    function datepickertInit() {
-        $(".driveScoreDatepicker").datetimepicker({
-            format: "YYYY-MM"
-        }).on("dp.change", function(e) {
-            $(".driveScoreDatepicker").data("DateTimePicker").minDate('2022');
-
-        });
-    }
-
     window.onload = function() {
-        datepickertInit();
 
         var sessionUserAuth = "[[${session.LoginMembers.role}]]";
 
@@ -346,7 +336,7 @@
 
         function datepickerInit(){
             $('#start_dt').datetimepicker({
-                format: 'YYYY-MM-DD H:mm'
+                format: 'YYYY-MM-DD'
             });
         }
 
