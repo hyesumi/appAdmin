@@ -45,7 +45,7 @@ public class MemberController {
         List<Member> memberList = memberService.getMemberList(pagingInfo);
 
         model.addAttribute("currentPage", 1);
-        model.addAttribute("totalSize", 20);
+        model.addAttribute("totalSize", memberList.size());
         model.addAttribute("memberList", memberList);
         model.addAttribute("perPage", pagingInfo.getPerPage());
 

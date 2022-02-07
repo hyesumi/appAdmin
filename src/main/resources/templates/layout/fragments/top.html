@@ -39,55 +39,52 @@
         </ul>
     </nav>
 
-    <div class="admin_content_wrap">
-        <div class="col-sm-12">
-            <div class="paging_simple_numbers" id="datatable-fixed-header_paginate">
-                <div class="modal fade bs-example-modal-lg" id="userInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header" id="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">개인정보 수정</h4>
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" id="modal_detail" >
-                                <table class="table table_custom">
-                                    <colgroup>
-                                        <col width="12%">
-                                        <col width="auto">
-                                        <col width="12%">
-                                        <col width="auto">
-                                    </colgroup>
-                                    <tbody>
-                                    <tr>
-                                        <th><span class="required"></span>그룹명</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <select id="editroleId" name="editroleId">
-                                                    <option value="SUPER_ADMIN">SUPER_ADMIN</option>
-                                                    <option value="ADMIN">ADMIN</option>
-                                                    <option value="USER">USER</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><span class="required"></span>이름</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <input id="editname" type="text" class="form-control" placeholder="" readonly>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th><span class="required"></span>E-Mail</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <input id="editemail" type="text" class="form-control" placeholder="" readonly>
-                                            </div>
-                                        </td>
-                                    </tr>
+    <div class="modal fade bs-example-modal-lg" id="userInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" id="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">개인정보 수정</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_detail" >
+                    <table class="table table_custom">
+                        <colgroup>
+                            <col width="12%">
+                            <col width="auto">
+                            <col width="12%">
+                            <col width="auto">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th><span class="required"></span>그룹명</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <select id="editroleId" name="editroleId">
+                                        <option value="SUPER_ADMIN">SUPER_ADMIN</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required"></span>이름</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <input id="editname" type="text" class="form-control" placeholder="" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span class="required"></span>E-Mail</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <input id="editemail" type="text" class="form-control" placeholder="" readonly>
+                                </div>
+                            </td>
+                        </tr>
 <!--                                    <tr>-->
 <!--                                        <th><span class="required"></span>핸드폰 번호</th>-->
 <!--                                        <td colspan="3">-->
@@ -96,46 +93,43 @@
 <!--                                            </div>-->
 <!--                                        </td>-->
 <!--                                    </tr>-->
-                                    <tr id="editpassword" style="border-bottom: 1px solid #e5e5e5">
-                                        <th><span class="required"></span>현재 비밀번호</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <input id="password" type="password" class="form-control" placeholder="">
-                                            </div>
-                                            <div>
-                                                <button id="btnEditPW" type="button" class="btn btn-primary">비밀번호 변경</button>
-                                            </div>
-                                            <div>
-                                                <button id="btnEditPWCancel" type="button" class="btn btn-primary" style="display: none">변경 취소</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="newpassword" style="display: none">
-                                        <th><span class="required"></span>새로운 비밀번호</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <input id="npassword" type="password" class="form-control" placeholder="">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr id="checknewpassword" style="display: none">
-                                        <th><span class="required"></span>새 비밀번호 확인</th>
-                                        <td colspan="3">
-                                            <div class="col-sm-9">
-                                                <input id="checknpassword" type="password" class="form-control" placeholder="">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">닫기</button>
-                                <button type="button" class="btn btn-primary" id="btnUserEdit" style="display: none">수정</button>
-                                <button type="button" class="btn btn-primary" id="btncancel" data-dismiss="modal">확인</button>
-                            </div>
-                        </div>
-                    </div>
+                        <tr id="editpassword" style="border-bottom: 1px solid #e5e5e5">
+                            <th><span class="required"></span>현재 비밀번호</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <input id="password" type="password" class="form-control" placeholder="">
+                                </div>
+                                <div>
+                                    <button id="btnEditPW" type="button" class="btn btn-primary">비밀번호 변경</button>
+                                </div>
+                                <div>
+                                    <button id="btnEditPWCancel" type="button" class="btn btn-primary" style="display: none">변경 취소</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="newpassword" style="display: none">
+                            <th><span class="required"></span>새로운 비밀번호</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <input id="npassword" type="password" class="form-control" placeholder="">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="checknewpassword" style="display: none">
+                            <th><span class="required"></span>새 비밀번호 확인</th>
+                            <td colspan="3">
+                                <div class="col-sm-9">
+                                    <input id="checknpassword" type="password" class="form-control" placeholder="">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" id="btnUserEdit" style="display: none">수정</button>
+                    <button type="button" class="btn btn-primary" id="btncancel" data-dismiss="modal">확인</button>
                 </div>
             </div>
         </div>
