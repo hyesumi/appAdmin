@@ -18,11 +18,11 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
+<!--        <li class="nav-item active">-->
+<!--            <a class="nav-link" href="index.html">-->
+<!--                <i class="fas fa-fw fa-tachometer-alt"></i>-->
+<!--                <span>Dashboard</span></a>-->
+<!--        </li>-->
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -32,19 +32,36 @@
             Admin
         </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
+        <!— Nav Item - Pages Collapse Menu —>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
-                <span>사용자 관리</span>
+                <span>Components</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <ul>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">사용자 조회</a></li>
-                </ul>
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Custom Components:</h6>
+                    <a class="collapse-item" id="member_list" href="buttons.html" th:href="@{/member/list}">buttons</a>
+                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">cards</a>
+                </div>
             </div>
         </li>
+
+
+        <!-- Nav Item - Pages Collapse Menu -->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"-->
+<!--               aria-expanded="true" aria-controls="collapseTwo">-->
+<!--                <i class="fas fa-fw fa-cog"></i>-->
+<!--                <span>사용자 관리</span>-->
+<!--            </a>-->
+<!--            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">-->
+<!--                <ul>-->
+<!--                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">사용자 조회</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </li>-->
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
@@ -56,14 +73,14 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <ul>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 관리</a></li>
+                    <li class="member_list"><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 관리</a></li>
                     <li><a class="collapse-item" href="buttons.html" th:href="@{/adminArea/list}">영업 행정 지역 관리</a></li>
                     <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 정보 관리</a></li>
                     <li><a class="collapse-item" href="buttons.html" th:href="@{/common/list}">공동사업지구 관리</a></li>
                     <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">예외 요금 관리</a></li>
                 </ul>
             </div>
-        </li>
+        </li>ll
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -95,6 +112,7 @@
             </div>
         </li>
 
+
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -104,7 +122,15 @@
 
     <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
     <script th:inline="javascript">
+        $(document).ready(function(){
+            $('.collapse').find('li[href="' + document.location.pathname + '"]').addClass('active');
 
+            // var getUrl0 = url.indexOf("member/list");
+            //
+            // if(getUrl0 != -1){
+            //     $(".member_list").addClass("active");
+            // }
+        });
     </script>
 
 
