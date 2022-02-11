@@ -45,32 +45,29 @@
                 </div>
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
-<!--                        <div class="card-header py-3">-->
-<!--                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
-<!--                        </div>-->
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="70%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>번호</th>
                                     <th>지역</th>
-                                    <th>코드</th>
-                                    <th>추가내용</th>
-                                    <th>반영일</th>
-                                    <th>등록일</th>
+                                    <th>상세지역</th>
+                                    <th>행정코드</th>
+                                    <th>중형택시</th>
+                                    <th>대형,모범택시</th>
+                                    <th>약자택시</th>
                                 </tr>
                                 </thead>
                                 <tbody id="dataList">
-                                <tr th:each="list,num : ${commonAreaList}">
+                                <tr th:each="list,num : ${adminCodeList}">
                                     <td><input type="checkbox" th:value="${list.id}" ></td>
-                                    <td th:text="${num.count}"></td>
-                                    <td><a th:text="${list.areaName}" th:attr="onclick=|userAuthDetail('${list.areaName}')|" type="button"></a></td>
-                                    <td><span th:text="${list.areaCode}"></span></td>
-                                    <td><span th:text="${list.extraData}"></span></td>
-                                    <td><span th:text="${list.effectiveTs}"></span></td>
-                                    <td><span th:text="${list.createTs}"></span></td>
+                                    <td><a th:text="${list.depth1}" th:attr="onclick=|commonAreaDetail('${list.id}')|" type="button"></a></td>
+                                    <td><span th:text="${list.depth2}"></span></td>
+                                    <td><span th:text="${list.admcode}"></span></td>
+                                    <td><span th:text="${list.fareType1}"></span></td>
+                                    <td><span th:text="${list.fareType2}"></span></td>
+                                    <td><span th:text="${list.fareTypeW}"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -94,11 +91,11 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-        <div class="modal-dialog">
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">사용자 등록</h4>
+                    <h4 class="modal-title" id="myModalLabel">영업행정지역 등록</h4>
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 </div>
                 <div class="modal-body">
@@ -112,37 +109,56 @@
                             </colgroup>
                             <tbody id="modal_tbody">
                             <tr>
-                                <th><span class="required"></span>아이디</th>
+                                <th><span class="required"></span>지역</th>
                                 <td colspan="3">
                                     <div class="col-sm-9">
-                                        <input id="id" type="text" class="form-control" placeholder="">
+                                        <input id="depth1" type="text" class="form-control" placeholder="">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="required"></span>이름</th>
+                                <th><span class="required"></span>상세 지역</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9">
+                                        <input id="depth2" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>행정코드</th>
                                 <td colspan="3">
                                     <div class="col-sm-9" style="width: 100%;">
-                                        <input id="name" type="text" class="form-control" placeholder="">
+                                        <input id="admcode" type="text" class="form-control" placeholder="">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="required"></span>그룹</th>
-                                <td>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" value="" name="roleId" id="roleId" style="width:200px;">
-                                            <option value="SUPER_ADMIN">SUPER_ADMIN</option>
-                                            <option value="ADMIN">ADMIN</option>
-                                            <option value="USER" selected>USER</option>
-                                        </select>
+                                <th><span class="required"></span>중형택시</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 100%;">
+                                        <input id="fare_type_1" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>대형,모범택시</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 100%;">
+                                        <input id="fare_type_2" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>약자택시</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 100%;">
+                                        <input id="fare_type_w" type="text" class="form-control" placeholder="">
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <span id="message">패스워드는 초기 패스워드로 생성됩니다.</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -153,60 +169,57 @@
     </div>
 
 <script id="list-template" type="text/x-handlebars-template">
-    {{#each commonAreaList }}
+    {{#each adminCodeList }}
     <tr>
         <td><input type="checkbox" value="{{id}}"></td>
-        <td>{{position @index}}</td>
-        <td id="areaName"><a href="javascript:userAuthDetail('{{areaName}}')">{{areaName}}</a></td>
-        <td>{{areaCode}}</td>
-        <td>{{extraData}}</td>
-        <td>{{effectiveTs}}</td>
-        <td>{{createTs}}</td>
+        <td id="areaName"><a href="javascript:commonAreaDetail('{{id}}')">{{depth1}}</a></td>
+        <td>{{depth2}}</td>
+        <td>{{admcode}}</td>
+        <td>{{fareType1}}</td>
+        <td>{{fareType2}}</td>
+        <td>{{fareTypeW}}</td>
     </tr>
     {{else}}
     <tr>
-        <td colspan="6" align="center">데이터를 조회 할 수 없습니다.</td>
+        <td colspan="8" align="center">데이터를 조회 할 수 없습니다.</td>
     </tr>
     {{/each}}
 </script>
 
 <script type="text/javascript">
+    $(function() {
+        $('#datetimepicker').datetimepicker();
+    });
+
     var search = {};
-    var userRoleId = "";
 
      function fnSearch() {
          search.currentPage = 1;
          fire_ajax_submit(search, true);
      }
 
-    function userAuthDetail(email) {
+    function commonAreaDetail(id) {
         var sessionUserAuth = "[[${session.LoginMembers.role}]]";
         editType = "update";
 
-        $("h4.modal-title").text("권한 변경");
-        $("#roleId option").not(":selected").attr("disabled", false);
-        $("#name").prop("readonly", true);
-        $("#id").prop("readonly", true);
-        $("#roleId").attr("disabled", false);
-        $("#message").hide();
+        $("h4.modal-title").text("영업행정지역 변경");
 
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/member/detail" + "?email=" + email,
+            url: "/adminCode/detail" + "?id=" + id,
             success: function (data) {
                 if (sessionUserAuth != "SUPER_ADMIN") {
                     $("#btnSubmit").css("display", "none");
                 } else {
                     $("#btnSubmit").css("display", "inline-block");
                 }
-                // userRoleId = data.roleId;
-                //userRoleId = data.role;
-                $("#name").val(data.name);
-                $("#id").val(data.loginId);
-                $("#roleId").val(data.role);
-                // previousRoleId = data.roleId;
-                //previousRoleId = data.role;
+                $("#depth1").val(data.depth1);
+                $("#depth2").val(data.depth2);
+                $("#admcode").val(data.admcode);
+                $("#fare_type_1").val(data.fareType1);
+                $("#fare_type_2").val(data.fareType2);
+                $("#fare_type_w").val(data.fareTypeW);
             }, error: function (e) {
                 console.log(e);
             }
@@ -225,7 +238,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/member/search",
+            url: "/adminCode/search",
             data: JSON.stringify(search),
             dataType: 'json',
             cache: false,
@@ -262,6 +275,7 @@
     }
 
     window.onload = function() {
+
         var sessionUserAuth = "[[${session.LoginMembers.role}]]";
 
         if (!sessionUserAuth.includes("ADMIN")) {
@@ -305,23 +319,32 @@
         window.pagingCallback = pagingCallback;
         window.totalSize = totalSize;
         $('#pagination').twbsPagination(defaultOps).on('page', pagingCallback);
+        datepickerInit();
 
         $("#btnAdd").click(function() {
             editType = "add";
-            $("h4.modal-title").text('회원 등록');
-            $("#roleId").val("USER");
-            $("#name").val("");
-            $("#id").val("");
-            $("#roleId option").not(":selected").attr("disabled", "disabled");
-            $("#name").prop("readonly", false);
-            $("#id").prop("readonly", false);
-            //previousRoleId = null;
-
+            $("h4.modal-title").text('영업행정지역 등록');
+            if (sessionUserAuth != "SUPER_ADMIN") {
+                $("#btnSubmit").css("display", "none");
+            } else {
+                $("#btnSubmit").css("display", "inline-block");
+            }
+            $("#depth1").val("");
+            $("#depth2").val("");
+            $("#admcode").val("");
+            $("#fare_type_1").val("");
+            $("#fare_type_2").val("");
+            $("#fare_type_w").val("");
             $("#myModal").modal('show');
         });
 
+        function datepickerInit(){
+            $('#start_dt').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+        }
+
         $("#del_btn").click(function() {
-            editType = 'delete';
             let idxArray = new Array();
 
             $("#dataList tr").find("input[type=checkbox]:checked").each(function () {
@@ -332,7 +355,7 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/member/delete",
+                    url: "/common/delete",
                     data: JSON.stringify({idxArray : idxArray}),
                     dataType: 'json',
                     async : true,
@@ -352,73 +375,33 @@
 
          //확인 클릭시
         $("#btnSubmit").click(function() {
-            var roleId = $('#roleId').val();
 
-            if (roleId == null || roleId == '') {
-                alert('권한을 선택해주세요');
+            if($('#area').val() == null || $('#area').val() == '') {
+                alert('지역을 입력해주세요');
                 return false;
             }
-            if($('#name').val() == null || $('#name').val() == '') {
-                alert('이름을 입력해주세요');
-                return false;
-            }
-            if($('#id').val() == null || $('#id').val() == '') {
+            if($('#code').val() == null || $('#code').val() == '') {
                 alert('아이디를 입력해주세요');
                 return false;
             }
-            // if($('#phone').val() == null || $('#email').val() == '') {
-            //     alert('핸드폰번호를 입력해주세요');
-            //     return false;
-            // }
-
-            var emailVal = $("#id").val();
-            // var phoneVal = $("#phone").val();
-            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
-            if (emailVal.length < 3) {
-                alert("Email 은 3글자 이상 입력해야 합니다.");
-                return false;
-            } else {
-                if (emailVal.match(regExp) == null) {
-                    alert("올바른 Email 형식이 아닙니다. 다시 입력해주세요.");
-                    return false;
-                }
-            }
-
-            // if(editType != "update"){
-            //     regExp = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-            //
-            //     if (phoneVal.match(regExp) == null) {
-            //         alert("올바른 핸드폰번호 형식이 아닙니다. 다시 입력해주세요.");
-            //         return false;
-            //     }
-            // }
-
-            // if(roleId != userRoleId){
-            //     submitStart();
-            // } else {
-            //     $("#modal").modal('hide');
-            // }
-
             submitStart();
 
         });
 
         function submitStart() {
             var data = {
-                role : $('#roleId').val(),
-                loginId : $('#id').val(),
-                name : $('#name').val(),
-                // phoneNo : $('#phone').val(),
-                // registerId : asciiToChar(userEmail),
-                // previousRoleId : previousRoleId,
-                editType : editType
+                depth1 : $('#depth1').val(),
+                depth2 : $('#depth2').val(),
+                admcode : $('#admcode').val(),
+                fare_type_1 : $('#fare_type_1').val(),
+                fare_type_2 : $('#fare_type_2').val(),
+                fare_type_w : $('#fare_type_w').val()
             };
 
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "/member/edit",
+                url: "/common/edit",
                 data: JSON.stringify(data),
                 dataType: 'json',
                 async : true,

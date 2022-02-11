@@ -57,9 +57,7 @@ public class MemberController {
 
         PagingInfo pagingInfo = new PagingInfo();
         pagingInfo.setCurrentPage((Integer) model.get("currentPage"));
-        System.out.println("currentPage="+model.get("currentPage"));
         List<Member> list = memberService.getMemberList(pagingInfo);
-        System.out.println("list="+list.toString());
 
         model.put("memberList",list);
         model.put("totalSize",list.size());

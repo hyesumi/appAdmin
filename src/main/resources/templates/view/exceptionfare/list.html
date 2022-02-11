@@ -7,7 +7,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <div class="container-fluid">
-                <h1 class="h3 mb-2 text-gray-800">공동사업지구 관리</h1>
+                <h1 class="h3 mb-2 text-gray-800">예외 요금 관리</h1>
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
@@ -54,23 +54,21 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>번호</th>
-                                    <th>지역</th>
-                                    <th>코드</th>
+                                    <th>예외지역</th>
+                                    <th>영업지역 행정코드</th>
+                                    <th>예외타입</th>
+                                    <th>예외지역 이름</th>
                                     <th>추가내용</th>
-                                    <th>반영일</th>
-                                    <th>등록일</th>
                                 </tr>
                                 </thead>
                                 <tbody id="dataList">
-                                <tr th:each="list,num : ${commonAreaList}">
+                                <tr th:each="list,num : ${exceptionFareList}">
                                     <td><input type="checkbox" th:value="${list.id}" ></td>
-                                    <td th:text="${num.count}"></td>
-                                    <td><a th:text="${list.areaName}" th:attr="onclick=|commonAreaDetail('${list.id}')|" type="button"></a></td>
-                                    <td><span th:text="${list.areaCode}"></span></td>
+                                    <td><a th:text="${list.name}" th:attr="onclick=|commonAreaDetail('${list.id}')|" type="button"></a></td>
+                                    <td><span th:text="${list.code}"></span></td>
+                                    <td><span th:text="${list.type}"></span></td>
+                                    <td><span th:text="${list.area}"></span></td>
                                     <td><span th:text="${list.extraData}"></span></td>
-                                    <td><span th:text="${list.effectiveTs}"></span></td>
-                                    <td><span th:text="${list.createTs}"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -164,15 +162,14 @@
     </div>
 
     <script id="list-template" type="text/x-handlebars-template">
-        {{#each commonAreaList }}
+        {{#each exceptionFareList }}
         <tr>
             <td><input type="checkbox" value="{{id}}"></td>
-            <td>{{position @index}}</td>
-            <td id="areaName"><a href="javascript:commonAreaDetail('{{id}}')">{{areaName}}</a></td>
-            <td>{{areaCode}}</td>
+            <td id="name"><a href="javascript:commonAreaDetail('{{id}}')" type="button">{{name}}</a></td>
+            <td>{{code}}</td>
+            <td>{{type}}</td>
+            <td>{{area}}</td>
             <td>{{extraData}}</td>
-            <td>{{effectiveTs}}</td>
-            <td>{{createTs}}</td>
         </tr>
         {{else}}
         <tr>
@@ -231,7 +228,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "/member/search",
+                url: "/exceptionfare/search",
                 data: JSON.stringify(search),
                 dataType: 'json',
                 cache: false,

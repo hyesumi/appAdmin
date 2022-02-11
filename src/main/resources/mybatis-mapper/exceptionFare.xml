@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.admin.mapper.ExceptionFareMapper">
+
+    <select id="getExceptionFareList" parameterType="PagingInfo" resultType="ExceptionFare">
+        SELECT
+            a.idx AS id,
+            a.exception_nm AS name,
+            a.business_area_admcode AS code,
+            IF(a.exception_type = 'area', '지역', '장거리') AS type,
+            b.area_nm AS area,
+            a.exception_data AS extraData
+        FROM taxi_exception_tb AS a
+        LEFT JOIN exception_area_tb AS b ON a.exception_type_idx = b.idx
+        limit ${perPage} OFFSET ${(currentPage-1)*perPage}
+    </select>
+
+    <select id="exceptionFareTotalCnt" parameterType="PagingInfo" resultType="int">
+        SELECT
+           count(1)
+        FROM taxi_exception_tb
+    </select>
+
+    <select id="findAdminCodeByIdx" resultType="AdminCode" parameterType="String">
+        SELECT
+            depth_1_nm AS depth1,
+            depth_2_nm AS depth2,
+            admcode,
+            fare_type_1 AS fareType1,
+            fare_type_2 AS fareType2,
+            fare_type_w AS fareTypeW,
+            fare_type_etc AS fareTypeEtc
+        FROM kstm_area_tb
+            WHERE idx = #{id}
+    </select>
+
+    <update id="updateAuthAdminList" parameterType="Member">
+        UPDATE
+            auth_user
+            SET user_role = #{role}
+        WHERE user_email = #{loginId}
+    </update>
+
+    <insert id="insertAuthAdminList" parameterType="Member">
+        INSERT INTO auth_user
+        (
+        user_pw,
+        user_email,
+        user_name,
+        created_dt,
+        updated_dt,
+        use_yn,
+        user_role
+        )
+        VALUES
+        (
+        #{password},
+        #{loginId},
+        #{name},
+        now(),
+        now(),
+        'Y',
+        #{role}
+        )
+
+    </insert>
+
+    <delete id="deleteAuthUser" parameterType="java.util.Map">
+        DELETE
+        FROM auth_user
+        WHERE user_id IN
+        <foreach collection="idxArray" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="checkPassword" parameterType="String" resultType="Member">
+        SELECT
+            user_email AS loginId,
+            user_pw AS password
+        FROM auth_user
+        WHERE user_email = #{loginId}
+    </select>
+
+    <update id="updateUserPassword" parameterType="Member">
+        UPDATE
+            auth_user
+        SET user_pw = #{password}, updated_dt = now()
+        WHERE user_email = #{loginId}
+    </update>
+</mapper>

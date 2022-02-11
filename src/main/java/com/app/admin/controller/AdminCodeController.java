@@ -1,68 +1,66 @@
 package com.app.admin.controller;
 
-import com.app.admin.dto.AdminArea;
-import com.app.admin.dto.CommonArea;
+import com.app.admin.dto.AdminCode;
+import com.app.admin.dto.ExceptionFare;
 import com.app.admin.dto.PagingInfo;
-import com.app.admin.service.AdminAreaService;
-import com.app.admin.service.CommonAreaService;
+import com.app.admin.service.AdminCodeService;
+import com.app.admin.service.ExceptionFareService;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("adminArea")
-public class AdminAreaController {
+@RequestMapping("adminCode")
+public class AdminCodeController {
 
-    private AdminAreaService adminAreaService;
+    private AdminCodeService adminCodeService;
 
-    public AdminAreaController(AdminAreaService adminAreaService) {
-        this.adminAreaService = adminAreaService;
+    public AdminCodeController(AdminCodeService adminCodeService) {
+        this.adminCodeService = adminCodeService;
     }
 
     @RequestMapping("/list")
-    public String adminAreaList(Model model, HttpServletRequest request) {
+    public String excpetionFareList(Model model, HttpServletRequest request) {
         PagingInfo pagingInfo = new PagingInfo();
         pagingInfo.setCurrentPage(1);
 
-        List<AdminArea> AdminAreaList = adminAreaService.getAdminAreaList(pagingInfo);
+        List<AdminCode> adminCodeList = adminCodeService.getAdminCodeList(pagingInfo);
 
         model.addAttribute("currentPage", 1);
-        model.addAttribute("totalSize", AdminAreaList.size());
-        model.addAttribute("commonAreaList", AdminAreaList);
+        model.addAttribute("totalSize", adminCodeService.adminCodeTotalCnt(pagingInfo));
+        model.addAttribute("adminCodeList", adminCodeList);
         model.addAttribute("perPage", pagingInfo.getPerPage());
 
-        return "view/adminArea/list";
+        return "view/admincode/list";
     }
 
-//    @RequestMapping(value="/search", method={RequestMethod.POST, RequestMethod.GET})
-//    public @ResponseBody Map<String, Object> searchListAdmin(@RequestBody Map<String, Object> model) {
-//
-//        PagingInfo pagingInfo = new PagingInfo();
-//        pagingInfo.setCurrentPage((Integer) model.get("currentPage"));
-//        List<CommonArea> list = commonAreaService.getMemberList(pagingInfo);
-//
-//        model.put("memberList",list);
-//        model.put("totalSize",list.size());
-//        model.put("perPage", pagingInfo.getPerPage());
-//
-//        return model;
-//    }
-//
-//    @RequestMapping(value={"/detail"}, method= RequestMethod.POST)
-//    public ResponseEntity<Member>detailAuthManager(@RequestParam(required = false) String email) {
-//
-//        Member member = memberService.findUserByEmail(email);
-//        return ResponseEntity.ok().body(member);
-//
-//    }
+    @RequestMapping(value="/search", method={RequestMethod.POST, RequestMethod.GET})
+    public @ResponseBody Map<String, Object> searchListAdmin(@RequestBody Map<String, Object> model) {
+
+        PagingInfo pagingInfo = new PagingInfo();
+        pagingInfo.setCurrentPage((Integer) model.get("currentPage"));
+        List<AdminCode> list = adminCodeService.getAdminCodeList(pagingInfo);
+
+        model.put("adminCodeList", list);
+        model.put("totalSize",adminCodeService.adminCodeTotalCnt(pagingInfo));
+        model.put("perPage", pagingInfo.getPerPage());
+
+        return model;
+    }
+
+    @RequestMapping(value={"/detail"}, method= RequestMethod.POST)
+    public ResponseEntity<AdminCode> detailAuthManager(@RequestParam(required = false) String id) {
+        AdminCode adminCode = adminCodeService.findAdminCodeByIdx(id);
+        return ResponseEntity.ok().body(adminCode);
+
+    }
 //
 //    @RequestMapping(value={"/edit"}, method=RequestMethod.POST)
 //    public ResponseEntity<HashMap<String,Object>>  editAuthAdminList(HttpServletRequest request, @RequestBody EditMember member) {

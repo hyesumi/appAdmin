@@ -3,26 +3,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.app.admin.mapper.AdminAreaMapper">
+<mapper namespace="com.app.admin.mapper.AdminCodeMapper">
 
-    <select id="getAdminAreaList" parameterType="PagingInfo" resultType="AdminArea">
+    <select id="getAdminCodeList" parameterType="PagingInfo" resultType="AdminCode">
         SELECT
-            common_business_area_name AS areaName,
-            common_business_area_code AS areaCode,
-            extra_data AS extraData,
-            effective_ts AS effectiveTs,
-            create_ts AS createdTs
-        FROM taxi_common_business_area_tb
+        idx AS id,
+        depth_1_nm AS depth1,
+        depth_2_nm AS depth2,
+        admcode,
+        fare_type_1 AS fareType1,
+        fare_type_2 AS fareType2,
+        fare_type_w AS fareTypeW,
+        fare_type_etc AS fareTypeEtc
+        FROM kstm_area_tb
         limit ${perPage} OFFSET ${(currentPage-1)*perPage}
     </select>
 
-    <select id="findUserByEmail" resultType="Member" parameterType="String">
+    <select id="adminCodeTotalCnt" parameterType="PagingInfo" resultType="int">
         SELECT
-            user_email AS loginId,
-            user_role AS role,
-            user_name AS name
-        FROM auth_user
-            WHERE user_email = #{email}
+           count(1)
+        FROM kstm_area_tb
+    </select>
+
+    <select id="findAdminCodeByIdx" resultType="AdminCode" parameterType="String">
+        SELECT
+            depth_1_nm AS depth1,
+            depth_2_nm AS depth2,
+            admcode,
+            fare_type_1 AS fareType1,
+            fare_type_2 AS fareType2,
+            fare_type_w AS fareTypeW,
+            fare_type_etc AS fareTypeEtc
+        FROM kstm_area_tb
+            WHERE idx = #{id}
     </select>
 
     <update id="updateAuthAdminList" parameterType="Member">

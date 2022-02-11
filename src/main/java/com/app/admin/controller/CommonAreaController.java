@@ -54,10 +54,9 @@ public class CommonAreaController {
 
                 jObj.replace("taxi_type",list);
                 commonArea.setExtraData(jObj.toString());
-
-                if("0000-00-00 00:00:00".equals(commonArea.getEffectiveTs())){
-                    commonArea.setEffectiveTs("즉시시행");
-                }
+            }
+            if("0000-00-00 00:00:00".equals(commonArea.getEffectiveTs())){
+                commonArea.setEffectiveTs("즉시시행");
             }
         }
         model.addAttribute("currentPage", 1);
@@ -102,7 +101,15 @@ public class CommonAreaController {
         return ResponseEntity.ok().body(map);
     }
 
-//
+    @RequestMapping(value={"/searchCode"}, method= RequestMethod.POST)
+    public ResponseEntity<CommonArea> searchCode(@RequestParam(required = false) String name) {
+
+        CommonArea commonArea = commonAreaService.findCommonAreaById(name);
+        return ResponseEntity.ok().body(commonArea);
+
+    }
+
+
 //    @RequestMapping(value={"/edit"}, method=RequestMethod.POST)
 //    public ResponseEntity<HashMap<String,Object>>  editAuthAdminList(HttpServletRequest request, @RequestBody EditMember member) {
 //        HashMap<String,Object> map = new HashMap<>();

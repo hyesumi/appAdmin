@@ -1,8 +1,7 @@
 package com.app.admin.mapper;
 
 
-import com.app.admin.dto.AdminArea;
-import com.app.admin.dto.CommonArea;
+import com.app.admin.dto.AdminCode;
 import com.app.admin.dto.Member;
 import com.app.admin.dto.PagingInfo;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,10 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface AdminAreaMapper {
-    List<AdminArea> getAdminAreaList(PagingInfo pagingInfo) throws DataAccessException;
+public interface AdminCodeMapper {
+    List<AdminCode> getAdminCodeList(PagingInfo pagingInfo) throws DataAccessException;
 
-    Member findUserByEmail(String email) throws DataAccessException;
+    int adminCodeTotalCnt(PagingInfo pagingInfo) throws DataAccessException;
+
+    AdminCode findAdminCodeByIdx(String id) throws DataAccessException;
 
     void updateAuthAdminList(Member member) throws DataAccessException;
 

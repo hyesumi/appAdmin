@@ -32,38 +32,19 @@
             Admin
         </div>
 
-        <!— Nav Item - Pages Collapse Menu —>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
-                <span>Components</span>
+                <span>사용자 관리</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" id="member_list" href="buttons.html" th:href="@{/member/list}">buttons</a>
-                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">cards</a>
+                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">사용자 조회</a>
                 </div>
             </div>
         </li>
 
-
-        <!-- Nav Item - Pages Collapse Menu -->
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"-->
-<!--               aria-expanded="true" aria-controls="collapseTwo">-->
-<!--                <i class="fas fa-fw fa-cog"></i>-->
-<!--                <span>사용자 관리</span>-->
-<!--            </a>-->
-<!--            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">-->
-<!--                <ul>-->
-<!--                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">사용자 조회</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </li>-->
-
-        <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
@@ -72,15 +53,14 @@
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
-                <ul>
-                    <li class="member_list"><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 관리</a></li>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/adminArea/list}">영업 행정 지역 관리</a></li>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 정보 관리</a></li>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/common/list}">공동사업지구 관리</a></li>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">예외 요금 관리</a></li>
-                </ul>
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="buttons.html" th:href="@{/adminCode/list}">영업 행정 지역 관리</a>
+                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">요금 정보 관리</a>
+                    <a class="collapse-item" href="buttons.html" th:href="@{/common/list}">공동사업지구 관리</a>
+                    <a class="collapse-item" href="buttons.html" th:href="@{/exceptionfare/list}">예외 요금 관리</a>
+                </div>
             </div>
-        </li>ll
+        </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -89,29 +69,31 @@
                 <span>SDK 관리</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <ul>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">SDK 배포 관리</a></li>
-                </ul>
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">SDK 배포 관리</a>
+                </div>
             </div>
         </li>
+
         <!-- Heading -->
         <div class="sidebar-heading">
             통계
         </div>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesStatics"
                aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>통계 관리</span>
             </a>
-            <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapsePagesStatics" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <ul>
-                    <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">실시간 통계</a></li>
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">실시간 통계</a></li>
+                    </div>
                 </ul>
             </div>
         </li>
-
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
@@ -123,13 +105,9 @@
     <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function(){
-            $('.collapse').find('li[href="' + document.location.pathname + '"]').addClass('active');
 
-            // var getUrl0 = url.indexOf("member/list");
-            //
-            // if(getUrl0 != -1){
-            //     $(".member_list").addClass("active");
-            // }
+            $('.collapse').find('a[href="' + document.location.pathname + '"]').addClass('active');
+
         });
     </script>
 
