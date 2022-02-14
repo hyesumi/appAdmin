@@ -3,40 +3,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.app.admin.mapper.AdminCodeMapper">
+<mapper namespace="com.app.admin.mapper.FareMapper">
 
-    <select id="getAdminCodeList" parameterType="AdminCode" resultType="AdminCode">
+    <select id="getFareList" parameterType="PagingInfo" resultType="Fare">
         SELECT
-        idx AS id,
-        depth_1_nm AS depth1,
-        depth_2_nm AS depth2,
-        admcode,
-        fare_type_1 AS fareType1,
-        fare_type_2 AS fareType2,
-        fare_type_w AS fareTypeW,
-        fare_type_etc AS fareTypeEtc
-        FROM kstm_area_tb
-        WHERE 1=1
-        <if test="depth1 != null and depth1 != ''">
-            and depth_1_nm like CONCAT('%', #{depth1}, '%')
-        </if>
-        <if test="admcode != null and admcode != ''">
-            and admcode = #{admcode}
-        </if>
+            idx AS id,
+            taxi_fare_nm AS name,
+            fare_type AS type,
+            basic_fare AS basicFare,
+            basic_distance AS basicDistance,
+            distance_fee_d AS distanceFeeDist,
+            distance_fee_f AS distanceFeeFare,
+            time_fee_t AS timeFeeTime,
+            time_fee_f AS timeFeeFare,
+            basic_fare_night AS basicFareNight,
+            addcount_reference_speed AS addCountReferenceSpeed,
+            out_city_rate AS outCityRate,
+            night_rate AS nightRate,
+            compound_rate AS compoundRate,
+            call_fee AS callFee,
+            is_multiple_calc AS isMultipleCalc
+        FROM taxi_fare_tb
         limit ${perPage} OFFSET ${(currentPage-1)*perPage}
     </select>
 
-    <select id="adminCodeTotalCnt" parameterType="AdminCode" resultType="int">
+    <select id="fareTotalCnt" parameterType="PagingInfo" resultType="int">
         SELECT
            count(1)
-        FROM kstm_area_tb
-        WHERE 1=1
-        <if test="depth1 != null and depth1 != ''">
-            and depth_1_nm like CONCAT('%', #{depth1}, '%')
-        </if>
-        <if test="admcode != null and admcode != ''">
-            and admcode = #{admcode}
-        </if>
+        FROM taxi_fare_tb
     </select>
 
     <select id="findAdminCodeByIdx" resultType="AdminCode" parameterType="String">
@@ -50,14 +44,6 @@
             fare_type_etc AS fareTypeEtc
         FROM kstm_area_tb
             WHERE idx = #{id}
-    </select>
-
-    <select id="findDetailCode" resultType="String" parameterType="String">
-        SELECT
-            admcode
-        FROM kstm_area_tb
-        WHERE depth_1_nm like CONCAT('%', #{areaName}, '%')
-
     </select>
 
     <update id="updateAuthAdminList" parameterType="Member">

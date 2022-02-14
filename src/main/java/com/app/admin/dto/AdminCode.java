@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class AdminCode {
+public class AdminCode extends PagingInfo{
 
     private Long id;
     private String depth1;
@@ -13,6 +13,7 @@ public class AdminCode {
     private String fareType1;
     private String fareType2;
     private String fareTypeW;
-
+    private String fareTypeEtc;
+    private String editType;
 
 }

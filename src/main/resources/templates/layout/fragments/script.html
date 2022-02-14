@@ -27,31 +27,31 @@
 
     <script>
 
-        var minute = 29;
-        var second = 59;
-
-        function calSessionTime(){
-            var time = "";
-
-            if(second < 10){
-                time = minute + ":0" +second;
-            } else {
-                time = minute + ":" +second;
-            }
-
-            $('#sessionTime').text(time);
-
-            if(second == 0){
-                minute--;
-                second = 59;
-            } else {
-                second--;
-            }
-        }
-
-        const loginCheck = setInterval(function() {
-            calSessionTime();//호출될 코드
-        }, 1000); //delay 시간
+        // var minute = 29;
+        // var second = 59;
+        //
+        // function calSessionTime(){
+        //     var time = "";
+        //
+        //     if(second < 10){
+        //         time = minute + ":0" +second;
+        //     } else {
+        //         time = minute + ":" +second;
+        //     }
+        //
+        //     $('#sessionTime').text(time);
+        //
+        //     if(second == 0){
+        //         minute--;
+        //         second = 59;
+        //     } else {
+        //         second--;
+        //     }
+        // }
+        //
+        // const loginCheck = setInterval(function() {
+        //     calSessionTime();//호출될 코드
+        // }, 1000); //delay 시간
 
     </script>
 </th:block>

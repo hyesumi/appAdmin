@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login","/logout","/css/**","/*.ico","/error","/login/loginForm","/noAuth","/vendor/**","/scss/**","/img/**","/js/**");
+                .excludePathPatterns("/","/login","/logout","/css/**","/*.ico","/error","/login/loginForm","/noAuth","/vendor/**","/scss/**","/img/**","/js/**","/loginCheck");
 
 //        registry.addInterceptor(new UserAuthInterceptor())
 //                .order(2)
@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new PermissionInterceptor())
                 .order(3)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login","/logout","/css/**","/*.ico","/error","/login/loginForm","","/noAuth","/vendor/**","/scss/**","/img/**","/js/**");
+                .excludePathPatterns("/login","/logout","/css/**","/*.ico","/error","/login/loginForm","","/noAuth","/vendor/**","/scss/**","/img/**","/js/**","/loginCheck");
 
     }
 }

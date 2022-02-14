@@ -16,14 +16,18 @@ public class AdminCodeService {
         this.adminCodeMapper = adminCodeMapper;
     }
 
-    public List<AdminCode> getAdminCodeList(PagingInfo pagingInfo) {
-        return adminCodeMapper.getAdminCodeList(pagingInfo);
+    public List<AdminCode> getAdminCodeList(AdminCode adminCode) {
+        return adminCodeMapper.getAdminCodeList(adminCode);
     }
-    public int adminCodeTotalCnt(PagingInfo pagingInfo) {
-        return adminCodeMapper.adminCodeTotalCnt(pagingInfo);
+    public int adminCodeTotalCnt(AdminCode adminCode) {
+        return adminCodeMapper.adminCodeTotalCnt(adminCode);
     }
 
     public AdminCode findAdminCodeByIdx(String id) {
         return adminCodeMapper.findAdminCodeByIdx(id);
+    }
+
+    public String findDetailCode(String areaName) {
+        return adminCodeMapper.findDetailCode(areaName);
     }
 }

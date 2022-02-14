@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,29 +29,30 @@ public class AdminCodeController {
 
     @RequestMapping("/list")
     public String excpetionFareList(Model model, HttpServletRequest request) {
-        PagingInfo pagingInfo = new PagingInfo();
-        pagingInfo.setCurrentPage(1);
+        AdminCode adminCode = new AdminCode();
+        adminCode.setCurrentPage(1);
 
-        List<AdminCode> adminCodeList = adminCodeService.getAdminCodeList(pagingInfo);
+        List<AdminCode> adminCodeList = adminCodeService.getAdminCodeList(adminCode);
 
         model.addAttribute("currentPage", 1);
-        model.addAttribute("totalSize", adminCodeService.adminCodeTotalCnt(pagingInfo));
+        model.addAttribute("totalSize", adminCodeService.adminCodeTotalCnt(adminCode));
         model.addAttribute("adminCodeList", adminCodeList);
-        model.addAttribute("perPage", pagingInfo.getPerPage());
+        model.addAttribute("perPage", adminCode.getPerPage());
 
         return "view/admincode/list";
     }
 
     @RequestMapping(value="/search", method={RequestMethod.POST, RequestMethod.GET})
     public @ResponseBody Map<String, Object> searchListAdmin(@RequestBody Map<String, Object> model) {
+        AdminCode adminCode = new AdminCode();
+        adminCode.setCurrentPage((Integer) model.get("currentPage"));
+        adminCode.setDepth1((String)model.get("searchName"));
+        adminCode.setAdmcode((String)model.get("searchCode"));
 
-        PagingInfo pagingInfo = new PagingInfo();
-        pagingInfo.setCurrentPage((Integer) model.get("currentPage"));
-        List<AdminCode> list = adminCodeService.getAdminCodeList(pagingInfo);
-
+        List<AdminCode> list = adminCodeService.getAdminCodeList(adminCode);
         model.put("adminCodeList", list);
-        model.put("totalSize",adminCodeService.adminCodeTotalCnt(pagingInfo));
-        model.put("perPage", pagingInfo.getPerPage());
+        model.put("totalSize",adminCodeService.adminCodeTotalCnt(adminCode));
+        model.put("perPage", adminCode.getPerPage());
 
         return model;
     }
@@ -61,40 +63,34 @@ public class AdminCodeController {
         return ResponseEntity.ok().body(adminCode);
 
     }
-//
-//    @RequestMapping(value={"/edit"}, method=RequestMethod.POST)
-//    public ResponseEntity<HashMap<String,Object>>  editAuthAdminList(HttpServletRequest request, @RequestBody EditMember member) {
-//        HashMap<String,Object> map = new HashMap<>();
-//        map.put("message", "SUCCESS");
-//        try{
-//            if (member.getEditType().equals("add")) {
-//                member.setPassword(BCrypt.hashpw("asdf1234@@!!",BCrypt.gensalt(10)));
-//                memberService.insertAuthAdminList(member);
-//            } else if (member.getEditType().equals("update")) {
-//                memberService.updateAuthAdminList(member);
-//            }  else if (member.getEditType().equals("edit")) {
-//                Member checkMember = memberService.checkPassword(member.getLoginId());
-//                if(BCrypt.checkpw(member.getPassword(),checkMember.getPassword())){
-//                    if(member.getNewpassword().equals(member.getPassword())){
-//                        map.put("message","동일한 패스워드로는 변경불가능합니다.");
-//                        return ResponseEntity.ok().body(map);
-//                    } else if(member.getNewpassword().equals(member.getLoginId())){
-//                        map.put("message","아이디와 동일한 패스워드로는 변경불가능합니다.");
-//                        return ResponseEntity.ok().body(map);
-//                    }
-//                    member.setPassword(BCrypt.hashpw(member.getNewpassword(),BCrypt.gensalt(10)));
-//                    memberService.updateUserPassword(member);
-//                } else {
-//                     map.put("message","패스워드가 잘못입력되었습니다.");
-//                }
-//            }
-//
-//        }catch(Exception e){
-//            map.put("message", "등록에 실패하였습니다. 관리자에게 문의하세요");
-//        }
-//
-//        return ResponseEntity.ok().body(map);
-//    }
+
+    @RequestMapping(value={"/detailCode"}, method= RequestMethod.POST)
+    public ResponseEntity<String> detailCodeManager(@RequestParam(required = false) String sidoContent, @RequestParam(required = false) String gugunContent) {
+        String areaName = sidoContent;
+        System.out.println(areaName);
+        String code = adminCodeService.findDetailCode(areaName);
+        System.out.println(code);
+        return ResponseEntity.ok().body(code);
+
+    }
+
+
+    @RequestMapping(value={"/edit"}, method=RequestMethod.POST)
+    public ResponseEntity<HashMap<String,Object>>  editAuthAdminList(HttpServletRequest request, @RequestBody AdminCode adminCode) {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("message", "SUCCESS");
+        try{
+            if (adminCode.getEditType().equals("add")) {
+                System.out.println("add");
+            } else if (adminCode.getEditType().equals("update")) {
+                System.out.println("update");
+            }
+        }catch(Exception e){
+            map.put("message", "등록에 실패하였습니다. 관리자에게 문의하세요");
+        }
+
+        return ResponseEntity.ok().body(map);
+    }
 //
 //    @RequestMapping(value="/delete", method=RequestMethod.POST)
 //    public ResponseEntity<HashMap<String,Object>> deleteAuthAdminList(HttpServletRequest request, @RequestBody Map<String,Object> idxArray) {

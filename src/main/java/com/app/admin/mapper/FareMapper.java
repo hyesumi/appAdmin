@@ -1,9 +1,7 @@
 package com.app.admin.mapper;
 
 
-import com.app.admin.dto.AdminCode;
-import com.app.admin.dto.Member;
-import com.app.admin.dto.PagingInfo;
+import com.app.admin.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 
@@ -11,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface AdminCodeMapper {
-    List<AdminCode> getAdminCodeList(AdminCode adminCode) throws DataAccessException;
+public interface FareMapper {
+    List<Fare> getFareList(PagingInfo pagingInfo) throws DataAccessException;
 
-    int adminCodeTotalCnt(AdminCode adminCode) throws DataAccessException;
+    int fareTotalCnt(PagingInfo pagingInfo) throws DataAccessException;
 
     AdminCode findAdminCodeByIdx(String id) throws DataAccessException;
 
@@ -27,7 +25,5 @@ public interface AdminCodeMapper {
     Member checkPassword(String loginId) throws DataAccessException;
 
     void updateUserPassword(Member member) throws DataAccessException;
-
-    String findDetailCode(String areaName) throws DataAccessException;
 
 }
