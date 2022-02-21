@@ -21,13 +21,13 @@
                                     </colgroup>
                                     <tbody>
                                     <tr>
-                                        <th>지역명</th>
+                                        <th>택시 요금 이름</th>
                                         <td>
                                             <input type="text" class="form-control" id="searchName" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>코드</th>
+                                        <th>택시 요금 Type</th>
                                         <td>
                                             <input type="text" class="form-control" id="searchCode" placeholder="">
                                         </td>
@@ -116,7 +116,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">공동사업지구 등록</h4>
+                    <h4 class="modal-title" id="myModalLabel">요금 등록</h4>
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 </div>
                 <div class="modal-body">
@@ -130,42 +130,134 @@
                             </colgroup>
                             <tbody id="modal_tbody">
                             <tr>
-                                <th><span class="required"></span>지역</th>
+                                <th><span class="required"></span>택시 요금 이름</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="fareName" type="text" class="form-control" placeholder="예)서울_중형">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>택시 요금 Type</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="fareType" type="text" class="form-control" placeholder="예)seoul_junghueng">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>기본운행요금</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="basicFare" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>기본운행거리</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="basicDistance" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>거리요금(거리)</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="distanceFeeD" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>거리요금(요금)</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="distanceFeeF" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>시간요금(시간)</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="TimeFeeT" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>시간요금(요금)</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="TimeFeeF" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>심야기본요금</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="nightBasicFare" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>심야기본거리</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="nightBasicDistance" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>병산 기준속도</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="addCountReference" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>시계외 할증률</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="outCityRate" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>심야 할증률</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="nightRate" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>복합 할증률</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="compoundRate" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>호출비</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9" style="width: 50%;">
+                                        <input id="callFee" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>연산방법</th>
                                 <td colspan="3">
                                     <div class="col-sm-9">
-                                        <input id="area" type="text" class="form-control" placeholder="">
-                                    </div>
-                                    <button type="button" class="btn btn-primary" id="btnSearchCode">코드 조회</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="required"></span>코드</th>
-                                <td colspan="3">
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <input id="code" type="text" class="form-control" placeholder="">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="required"></span>추가내용</th>
-                                <td colspan="3">
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <textarea name="extraData" id="extraData" class="form-control" rows="12" style="width: 100% !important;" escapeXml="true"></textarea>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="required"></span>반영일</th>
-                                <td>
-                                    <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" id="effectiveTs" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">즉시시행</label>
+                                        <select id="multipleCalc">
+                                            <option value="0" selected>상호병산</option>
+                                            <option value="1">부분동시연산</option>
+                                            <option value="2">부분동시병산</option>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>

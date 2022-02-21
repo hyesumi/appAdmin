@@ -57,7 +57,7 @@
                                     <th>중형택시</th>
                                     <th>대형,모범택시</th>
                                     <th>약자택시</th>
-                                    <th>기타</th>
+<!--                                    <th>기타</th>-->
                                 </tr>
                                 </thead>
                                 <tbody id="dataList">
@@ -69,7 +69,7 @@
                                     <td><span th:text="${list.fareType1}"></span></td>
                                     <td><span th:text="${list.fareType2}"></span></td>
                                     <td><span th:text="${list.fareTypeW}"></span></td>
-                                    <td><span th:text="${list.fareTypeEtc}"></span></td>
+<!--                                    <td><span th:text="${list.fareTypeEtc}"></span></td>-->
                                 </tr>
                                 </tbody>
                             </table>
@@ -110,44 +110,69 @@
                                 <col width="30%">
                             </colgroup>
                             <tbody id="modal_tbody">
+                            <input  type="hidden" id="id" value="0">
                             <tr>
                                 <th><span class="required"></span>지역</th>
                                 <td colspan="3">
                                     <div class="col-sm-9">
-                                        <select name="sido1" id="sido1"></select>
-                                        <select name="gugun1" id="gugun1"></select>
-                                        <button type="button" class="btn btn-primary" id="btnCode">코드 조회</button>
+                                        <select name="" id="address" onchange="categoryChange(this)">
+                                            <option value selected>시/도 선택</option>
+                                            <option value="강원">강원</option>
+                                            <option value="경기">경기</option>
+                                            <option value="경남">경남</option>
+                                            <option value="경북">경북</option>
+                                            <option value="광주">광주</option>
+                                            <option value="대구">대구</option>
+                                            <option value="대전">대전</option>
+                                            <option value="부산">부산</option>
+                                            <option value="서울">서울</option>
+                                            <option value="울산">울산</option>
+                                            <option value="인천">인천</option>
+                                            <option value="전남">전남</option>
+                                            <option value="전북">전북</option>
+                                            <option value="제주">제주</option>
+                                            <option value="충남">충남</option>
+                                            <option value="충북">충북</option>
+                                            <option value="세종">세종</option>
+                                        </select>
+                                        <select name="" id="state">
+                                            <option value selected>군/구 선택</option>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="required"></span>행정코드</th>
                                 <td colspan="3">
-
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <select>
-                                            <option value="">-- 선택 --</option>
-                                            <option th:each="val : ${list}" th:value="${val?.entityIdx}"
-                                                    th:utext="${val?.entityName}">
-                                            </option>
-                                        </select>
-                                        <input id="admcode" type="text" class="form-control" placeholder="" disabled="true">
+                                    <div class="col-sm-9">
+                                        <input id="admcode" type="text" class="form-control" placeholder="" >
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="required"></span>중형택시</th>
                                 <td colspan="3">
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <input id="fare_type_1" type="text" class="form-control" placeholder="">
+                                    <div class="col-sm-9">
+                                        <select id="fare_type_1">
+                                            <option value="0">--중형택시 선택 --</option>
+                                            <option th:each="val : ${fareList}" th:value="${val?.fareTypeNm}"
+                                                    th:utext="${val?.fareTypeNm}">
+                                            </option>
+                                        </select>
+<!--                                        <input id="fare_type_1" type="text" class="form-control" placeholder="">-->
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th><span class="required"></span>대형,모범택시</th>
                                 <td colspan="3">
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <input id="fare_type_2" type="text" class="form-control" placeholder="">
+                                    <div class="col-sm-9">
+                                        <select id="fare_type_2">
+                                            <option value="0">--대형,모범택시 선택 --</option>
+                                            <option th:each="val : ${fareList}" th:value="${val?.fareTypeNm}"
+                                                    th:utext="${val?.fareTypeNm}">
+                                            </option>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>
@@ -155,7 +180,12 @@
                                 <th><span class="required"></span>약자택시</th>
                                 <td colspan="3">
                                     <div class="col-sm-9" style="width: 100%;">
-                                        <input id="fare_type_w" type="text" class="form-control" placeholder="">
+                                        <select id="fare_type_w">
+                                            <option value="0">--약자택시 선택 --</option>
+                                            <option th:each="val : ${fareList}" th:value="${val?.fareTypeNm}"
+                                                    th:utext="${val?.fareTypeNm}">
+                                            </option>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>
@@ -179,329 +209,372 @@
         </div>
     </div>
 
-<script id="list-template" type="text/x-handlebars-template">
-    {{#each adminCodeList }}
-    <tr>
-        <td><input type="checkbox" value="{{id}}"></td>
-        <td id="areaName"><a href="javascript:commonAreaDetail('{{id}}')">{{depth1}}</a></td>
-        <td>{{depth2}}</td>
-        <td>{{admcode}}</td>
-        <td>{{fareType1}}</td>
-        <td>{{fareType2}}</td>
-        <td>{{fareTypeW}}</td>
-        <td>{{fareTypeEtc}}</td>
-    </tr>
-    {{else}}
-    <tr>
-        <td colspan="9" align="center">데이터를 조회 할 수 없습니다.</td>
-    </tr>
-    {{/each}}
-</script>
+    <script id="list-template" type="text/x-handlebars-template">
+        {{#each adminCodeList }}
+        <tr>
+            <td><input type="checkbox" value="{{id}}"></td>
+            <td id="areaName"><a href="javascript:commonAreaDetail('{{id}}')">{{depth1}}</a></td>
+            <td>{{depth2}}</td>
+            <td>{{admcode}}</td>
+            <td>{{fareType1}}</td>
+            <td>{{fareType2}}</td>
+            <td>{{fareTypeW}}</td>
+<!--            <td>{{fareTypeEtc}}</td>-->
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="9" align="center">데이터를 조회 할 수 없습니다.</td>
+        </tr>
+        {{/each}}
+    </script>
 
-<script type="text/javascript">
-    $(function() {
-        $('#datetimepicker').datetimepicker();
-    });
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker').datetimepicker();
+        });
 
-    var search = {};
+        var search = {};
 
-     function fnSearch() {
-         var searchName = $('#searchName').val();
-         var searchCode = $('#searchCode').val();
+        function fnSearch() {
+            var searchName = $('#searchName').val();
+            var searchCode = $('#searchCode').val();
 
-         search.searchName = searchName;
-         search.searchCode = searchCode;
-         search.currentPage = 1;
-         fire_ajax_submit(search, true);
-     }
+            search.searchName = searchName;
+            search.searchCode = searchCode;
+            search.currentPage = 1;
+            fire_ajax_submit(search, true);
+        }
 
-    function commonAreaDetail(id) {
-        var sessionUserAuth = "[[${session.LoginMembers.role}]]";
-        editType = "update";
+        function commonAreaDetail(id) {
+            var sessionUserAuth = "[[${session.LoginMembers.role}]]";
+            editType = "update";
 
-        $("h4.modal-title").text("영업행정지역 변경");
+            $("h4.modal-title").text("영업행정지역 변경");
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/adminCode/detail" + "?id=" + id,
-            success: function (data) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/adminCode/detail" + "?id=" + id,
+                success: function (data) {
+                    if (sessionUserAuth != "SUPER_ADMIN") {
+                        $("#btnSubmit").css("display", "none");
+                    } else {
+                        $("#btnSubmit").css("display", "inline-block");
+                    }
+                    $("#admcode").val(data.admcode);
+                    $("#fare_type_etc").val(data.fareTypeEtc);
+                    $("#id").val(data.id);
+                    $("#address").val(data.depth1);
+                    document.querySelector("#fare_type_1").value = data.fareType1;
+                    document.querySelector("#fare_type_2").value = data.fareType2;
+                    document.querySelector("#fare_type_w").value = data.fareTypeW;
+                    $("#address").attr("disabled", true);
+                    $("#state").attr("disabled", true);
+                    $("#admcode").attr("disabled", true);
+                    categoryChange(data);
+
+                }, error: function (e) {
+                    console.log(e);
+                }
+            });
+
+            $("#myModal").modal('show');
+        }
+
+        function fire_ajax_submit(search, refresh) {
+            $('#btnSearch').prop('disabled', true);
+
+            if (search == null || search == 'undefined' ) {
+                search = {};
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/adminCode/search",
+                data: JSON.stringify(search),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    $('#btnSearch').removeAttr('disabled');
+
+                    window.totalSize = data.totalSize;
+                    window.positionCounter = window.totalSize - (search.currentPage - 1) * 10;
+
+                    var source = $("#list-template").html();
+                    var template = Handlebars.compile(source);
+                    var html = template(data);
+                    $('#dataList').html(html);
+
+                    if (refresh) {
+                        var totalSize = data.totalSize;
+                        var perpage =  10;
+                        var totalPages = (totalSize/perpage);
+                        if(totalSize % perpage > 0 || totalPages == 0) {
+                            totalPages = totalPages + 1;
+                        }
+                        // redraw
+                        window.defaultOps.totalPages = totalPages;
+                        $('#pagination').twbsPagination('destroy');
+                        $('#pagination').twbsPagination(window.defaultOps).on('page', window.pagingCallback);
+                    }
+                }, error: function (e) {
+                    //검색 버튼 활성화
+                    $('#btnSearch').removeAttr('disabled');
+                    console.dir(e);
+                }
+            });
+        }
+
+        window.onload = function() {
+
+            var sessionUserAuth = "[[${session.LoginMembers.role}]]";
+
+            if (!sessionUserAuth.includes("ADMIN")) {
+                $("#adminBtnGroup").css("display" , "none");
+            }
+
+            let visiblePages = 10;
+            let totalSize = "[[${totalSize}]]";
+            let perpage = "[[${perPage}]]";
+            let totalPages = (totalSize/perpage);
+            if(totalSize % perpage > 0 || totalPages == 0){
+                totalPages = totalPages + 1;
+            }
+
+            // Handlebar Counter
+            Handlebars.registerHelper('position', function() {
+                return window.positionCounter--;
+            });
+
+            // Paging Option
+            var defaultOps = {
+                totalPages: totalPages,
+                visiblePages: visiblePages,
+                startPage : 1,
+                first: "<<", last : ">>",
+                prev : "<", next : ">",
+                initiateStartPageClick: false,
+                onPageClick: function (event, page) {
+                    console.info(page + ' (from options)');
+                }
+            };
+
+            // Paging Callback Func
+            var pagingCallback = function (event, page) {
+                console.info(page + ' (from event listening)');
+                search.currentPage = page;
+                fire_ajax_submit(search);
+            };
+
+            window.defaultOps = defaultOps;
+            window.pagingCallback = pagingCallback;
+            window.totalSize = totalSize;
+            $('#pagination').twbsPagination(defaultOps).on('page', pagingCallback);
+            datepickerInit();
+
+            $("#btnAdd").click(function() {
+                editType = "add";
+                $("h4.modal-title").text('영업행정지역 등록');
                 if (sessionUserAuth != "SUPER_ADMIN") {
                     $("#btnSubmit").css("display", "none");
                 } else {
                     $("#btnSubmit").css("display", "inline-block");
                 }
-                $("#admcode").val(data.admcode);
-                $("#fare_type_1").val(data.fareType1);
-                $("#fare_type_2").val(data.fareType2);
-                $("#fare_type_w").val(data.fareTypeW);
-                $("#fare_type_etc").val(data.fareTypeEtc);
-                $("#sido1").val(data.depth1);
-                $("#gugun1").val(data.depth2);
-            }, error: function (e) {
-                console.log(e);
+
+                $("#admcode").val("");
+                $("#fare_type_1").val(0);
+                $("#fare_type_2").val(0);
+                $("#fare_type_w").val(0);
+                $("#fare_type_etc").val("");
+                $("#address").val("")
+                $("#state").val("");
+                $("#myModal").modal('show');
+                $("#address").removeAttr("disabled");
+                $("#state").removeAttr("disabled");
+                $("#admcode").removeAttr("disabled");
+            });
+
+            $("#del_btn").click(function() {
+                editType = "add";
+
+                $("#admcode").val("");
+                $("#fare_type_1").val(0);
+                $("#fare_type_2").val(0);
+                $("#fare_type_w").val(0);
+                $("#fare_type_etc").val("");
+                $("#address").val("");
+                $("#state").val("");
+                $("#address").removeAttr("disabled");
+                $("#state").removeAttr("disabled");
+                $("#admcode").removeAttr("disabled");
+            });
+
+            function datepickerInit(){
+                $('#start_dt').datetimepicker({
+                    format: 'YYYY-MM-DD'
+                });
             }
-        });
 
-        $("#myModal").modal('show');
-    }
+            $("#del_btn").click(function() {
+                let idxArray = new Array();
 
-    function fire_ajax_submit(search, refresh) {
-        $('#btnSearch').prop('disabled', true);
+                $("#dataList tr").find("input[type=checkbox]:checked").each(function () {
+                    idxArray.push(this.value);
+                });
 
-        if (search == null || search == 'undefined' ) {
-            search = {};
-        }
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/adminCode/search",
-            data: JSON.stringify(search),
-            dataType: 'json',
-            cache: false,
-            timeout: 600000,
-            success: function (data) {
-                $('#btnSearch').removeAttr('disabled');
-
-                window.totalSize = data.totalSize;
-                window.positionCounter = window.totalSize - (search.currentPage - 1) * 10;
-
-                var source = $("#list-template").html();
-                var template = Handlebars.compile(source);
-                var html = template(data);
-                $('#dataList').html(html);
-
-                if (refresh) {
-                    var totalSize = data.totalSize;
-                    var perpage =  10;
-                    var totalPages = (totalSize/perpage);
-                    if(totalSize % perpage > 0 || totalPages == 0) {
-                        totalPages = totalPages + 1;
-                    }
-                    // redraw
-                    window.defaultOps.totalPages = totalPages;
-                    $('#pagination').twbsPagination('destroy');
-                    $('#pagination').twbsPagination(window.defaultOps).on('page', window.pagingCallback);
+                if (idxArray.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/common/delete",
+                        data: JSON.stringify({idxArray : idxArray}),
+                        dataType: 'json',
+                        async : true,
+                        success: function (data) {
+                            if (data.message=="SUCCESS") {
+                                alert("삭제되었습니다.");
+                                location.reload();
+                            }else{
+                                alert("삭제에 실패하였습니다.\n 관리자에게 문의해주세요.");
+                            }
+                        }, error: function (e) {
+                            console.log(e);
+                        }
+                    });
                 }
-            }, error: function (e) {
-                //검색 버튼 활성화
-                $('#btnSearch').removeAttr('disabled');
-                console.dir(e);
-            }
-        });
-    }
-
-    window.onload = function() {
-
-        var sessionUserAuth = "[[${session.LoginMembers.role}]]";
-
-        if (!sessionUserAuth.includes("ADMIN")) {
-            $("#adminBtnGroup").css("display" , "none");
-        }
-
-        let visiblePages = 10;
-        let totalSize = "[[${totalSize}]]";
-        let perpage = "[[${perPage}]]";
-        let totalPages = (totalSize/perpage);
-        if(totalSize % perpage > 0 || totalPages == 0){
-            totalPages = totalPages + 1;
-        }
-
-        // Handlebar Counter
-        Handlebars.registerHelper('position', function() {
-            return window.positionCounter--;
-        });
-
-        // Paging Option
-        var defaultOps = {
-            totalPages: totalPages,
-            visiblePages: visiblePages,
-            startPage : 1,
-            first: "<<", last : ">>",
-            prev : "<", next : ">",
-            initiateStartPageClick: false,
-            onPageClick: function (event, page) {
-                console.info(page + ' (from options)');
-            }
-        };
-
-        // Paging Callback Func
-        var pagingCallback = function (event, page) {
-            console.info(page + ' (from event listening)');
-            search.currentPage = page;
-            fire_ajax_submit(search);
-        };
-
-        window.defaultOps = defaultOps;
-        window.pagingCallback = pagingCallback;
-        window.totalSize = totalSize;
-        $('#pagination').twbsPagination(defaultOps).on('page', pagingCallback);
-        datepickerInit();
-
-        $("#btnAdd").click(function() {
-            editType = "add";
-            $("h4.modal-title").text('영업행정지역 등록');
-            if (sessionUserAuth != "SUPER_ADMIN") {
-                $("#btnSubmit").css("display", "none");
-            } else {
-                $("#btnSubmit").css("display", "inline-block");
-            }
-
-            $("#depth1").val("");
-            $("#admcode").val("");
-            $("#fare_type_1").val("");
-            $("#fare_type_2").val("");
-            $("#fare_type_w").val("");
-            $("#myModal").modal('show');
-        });
-
-        function datepickerInit(){
-            $('#start_dt').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-        }
-
-        $("#del_btn").click(function() {
-            let idxArray = new Array();
-
-            $("#dataList tr").find("input[type=checkbox]:checked").each(function () {
-                idxArray.push(this.value);
             });
 
-            if (idxArray.length > 0) {
+
+            //확인 클릭시
+            $("#btnSubmit").click(function() {
+                var admcode = $('#admcode').val();
+                var address = $('#address option:selected').val();
+                var state = $('#state option:selected').val();
+                var chkStyle = /\d/;
+                if(address == null || address == '' || state == null || state == '') {
+                    alert('지역을 선택해주세요');
+                    return false;
+                }
+                if(admcode == null || admcode == '') {
+                    alert('코드를 입력해주세요');
+                    return false;
+                } else if(admcode.length != 10) {
+                    alert('10자리로 입력해주세요');
+                    return false;
+                } else if(!chkStyle.test(admcode)){
+                    alert('숫자만 입력해주세요');
+                    return false;
+                }
+                submitStart();
+
+            });
+
+            function submitStart() {
+                var data = {
+                    depth1 : $('#address option:selected').val(),
+                    depth2 : $('#state option:selected').val(),
+                    admcode : $('#admcode').val(),
+                    fare_type_1 : $('#fare_type_1 option:selected').val(),
+                    fare_type_2 : $('#fare_type_2 option:selected').val(),
+                    fare_type_w : $('#fare_type_w option:selected').val(),
+                    fare_type_etc : $('#fare_type_etc').val(),
+                    editType : editType,
+                    id :  $('#id').val()
+                };
+
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/common/delete",
-                    data: JSON.stringify({idxArray : idxArray}),
+                    url: "/adminCode/edit",
+                    data: JSON.stringify(data),
                     dataType: 'json',
                     async : true,
                     success: function (data) {
                         if (data.message=="SUCCESS") {
-                            alert("삭제되었습니다.");
+                            alert("등록되었습니다.");
                             location.reload();
-                        }else{
-                            alert("삭제에 실패하였습니다.\n 관리자에게 문의해주세요.");
+                        } else {
+                            alert(data.message);
+
                         }
                     }, error: function (e) {
                         console.log(e);
                     }
                 });
             }
-        });
 
-        $("#btnCode").click(function() {
-            var sidoContent = $('#sido1 option:selected').val();
-            var gugunContent = $('#gugun1 option:selected').val();
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/adminCode/detailCode?sidoContent=" + sidoContent + "&gugunContent=" + gugunContent,
-                success: function (data) {
-                    $("#admcode").val(data);
-
-                }, error: function (e) {
-                    console.log(e);
-                }
-            });
-
-        });
-
-         //확인 클릭시
-        $("#btnSubmit").click(function() {
-
-            if($('#area').val() == null || $('#area').val() == '') {
-                alert('지역을 선택해주세요');
-                return false;
-            }
-            if($('#code').val() == null || $('#code').val() == '') {
-                alert('코드를 입력해주세요');
-                return false;
-            }
-            submitStart();
-
-        });
-
-        function submitStart() {
-            var data = {
-                depth1 : $('#depth1').val(),
-                depth2 : $('#depth2').val(),
-                admcode : $('#admcode').val(),
-                fare_type_1 : $('#fare_type_1').val(),
-                fare_type_2 : $('#fare_type_2').val(),
-                fare_type_w : $('#fare_type_w').val()
-            };
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/adminCode/edit",
-                data: JSON.stringify(data),
-                dataType: 'json',
-                async : true,
-                success: function (data) {
-                    if (data.message=="SUCCESS") {
-                        alert("등록되었습니다.");
-                        location.reload();
-                    } else {
-                        alert("등록에 실패하였습니다.\n 관리자에게 문의해주세요.");
-                    }
-                }, error: function (e) {
-                    console.log(e);
-                }
-            });
         }
 
-        var area0 = ["시/도 선택","서울","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
-        var area1 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-        var area2 = ["전체","계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
-        var area3 = ["전체","대덕구","동구","서구","유성구","중구"];
-        var area4 = ["전체","광산구","남구","동구",     "북구","서구"];
-        var area5 = ["전체","남구","달서구","동구","북구","서구","수성구","중구","달성군"];
-        var area6 = ["전체","남구","동구","북구","중구","울주군"];
-        var area7 = ["전체","강서구","금정구","남구","동구","동래구","부산진구","북구","사상구","사하구","서구","수영구","연제구","영도구","중구","해운대구","기장군"];
-        var area8 = ["전체","고양시","과천시","광명시","광주시","구리시","군포시","김포시","남양주시","동두천시","부천시","성남시","수원시","시흥시","안산시","안성시","안양시","양주시","오산시","용인시","의왕시","의정부시","이천시","파주시","평택시","포천시","하남시","화성시","가평군","양평군","여주군","연천군"];
-        var area9 = ["전체","강릉시","동해시","삼척시","속초시","원주시","춘천시","태백시","고성군","양구군","양양군","영월군","인제군","정선군","철원군","평창군","홍천군","화천군","횡성군"];
-        var area10 = ["전체","제천시","청주시","충주시","괴산군","단양군","보은군","영동군","옥천군","음성군","증평군","진천군","청원군"];
-        var area11 = ["전체","계룡시","공주시","논산시","보령시","서산시","아산시","천안시","금산군","당진군","부여군","서천군","연기군","예산군","청양군","태안군","홍성군"];
-        var area12 = ["전체","군산시","김제시","남원시","익산시","전주시","정읍시","고창군","무주군","부안군","순창군","완주군","임실군","장수군","진안군"];
-        var area13 = ["전체","광양시","나주시","목포시","순천시","여수시","강진군","고흥군","곡성군","구례군","담양군","무안군","보성군","신안군","영광군","영암군","완도군","장성군","장흥군","진도군","함평군","해남군","화순군"];
-        var area14 = ["전체","경산시","경주시","구미시","김천시","문경시","상주시","안동시","영주시","영천시","포항시","고령군","군위군","봉화군","성주군","영덕군","영양군","예천군","울릉군","울진군","의성군","청도군","청송군","칠곡군"];
-        var area15 = ["전체","거제시","김해시","마산시","밀양시","사천시","양산시","진주시","진해시","창원시","통영시","거창군","고성군","남해군","산청군","의령군","창녕군","하동군","함안군","함양군","합천군"];
-        var area16 = ["전체","서귀포시","제주시","남제주군","북제주군"];
+        function categoryChange(e) {
+            const state = document.getElementById("state");
+            const gangwon = ["전체","강릉","동해","삼척","속초","원주","춘천","태백","고성","양구","양양","영월","인제","정선","철원","평창","홍천","화천","횡성"];
+            const gyeonggi = ["전체","고양","과천","광명","광주","구리","군포","김포","남양주","동두천","부천시","성남","수원","시흥","안산","안성","안양","양주","오산","용인","의왕","의정부","이천","파주","평택","포천","하남","화성","가평","양평","여주","연천"];
+            const gyeongsangnam = ["전체","거제", "김해", "마산", "밀양", "사천", "양산", "진주", "진해", "창원", "통영", "거창", "고성", "남해", "산청", "의령", "창녕", "하동", "함안", "함양", "합천"];
+            const gyeongsangbuk = ["전체","경산","경주","구미","김천","문경","상주","안동","영주","영천","포항","고령","군위","봉화","성주","영덕","영양","예천","울릉","울진","의성","청도","청송","칠곡"];
+            const gwangju = ["전체","광산", "남구", "동구", "북구", "서구"];
+            const daegu = ["전체","남구", "달서구", "동구", "북구", "서구", "수성", "중구", "달성"];
+            const daejeon = ["전체","대덕", "동구", "서구", "유성", "중구"];
+            const busan = ["전체","강서","금정구","남구","동구","동래","부산진","북구","사상","사하","서구","수영","연제","영도","중구","해운대","기장"];
+            const seoul = ["전체","강남","강동구","강북","강서","관악","광진","구로","금천","노원","도봉","동대문","동작","마포","서대문","서초","성동","성북","송파","양천","영등포","용산","은평","종로","중구","중랑"];
+            const ulsan = ["전체","남구","동구","북구","중구","울주"];
+            const incheon = ["전체","계양","남구","남동","동구","부평","서구","연수","중구","강화","옹진"];
+            const jeonnam = ["전체","광양","나주","목포","순천","여수","강진","고흥","곡성","구례","담양","무안","보성","신안","영광","영암","완도","장성","장흥","진도","함평","해남","화순"];
+            const jeonbuk = ["전체","군산", "김제", "남원", "익산", "전주", "정읍", "고창", "무주군", "부안", "순창", "완주", "임실", "장수", "진안"];
+            const jeju = ["전체","서귀포","제주","남제주","북제주"];
+            const chungbuk = ["전체","제천","청주","충주","괴산","단양","보은","영동","옥천","음성","증평","진천","청원"];
 
-
-        // 시/도 선택 박스 초기화
-
-        $("select[name^=sido]").each(function() {
-            $selsido = $(this);
-            $.each(eval(area0), function() {
-                $selsido.append("<option value='"+this+"'>"+this+"</option>");
-            });
-            $selsido.next().append("<option value=''>구/군 선택</option>");
-        });
-
-
-        // 시/도 선택시 구/군 설정
-
-        $("select[name^=sido]").change(function() {
-            var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
-            var $gugun = $(this).next(); // 선택영역 군구 객체
-            $("option",$gugun).remove(); // 구군 초기화
-
-            if(area == "area0")
-                $gugun.append("<option value=''>구/군 선택</option>");
-            else {
-                $.each(eval(area), function() {
-                    $gugun.append("<option value='"+this+"'>"+this+"</option>");
-                });
+            if(e.value == undefined){
+                e.value = e.depth1;
             }
-        });
 
+            if (e.value == "강원") {
+                add = gangwon;
+            } else if (e.value == "경기") {
+                add = gyeonggi;
+            } else if (e.value == "경남") {
+                add = gyeongsangnam;
+            } else if (e.value == "경북") {
+                add = gyeongsangbuk;
+            } else if (e.value == "광주") {
+                add = gwangju;
+            } else if (e.value == "대구") {
+                add = daegu;
+            } else if (e.value == "대전") {
+                add = daejeon;
+            } else if (e.value == "부산") {
+                add = busan;
+            } else if (e.value == "서울") {
+                add = seoul;
+            } else if (e.value == "울산") {
+                add = ulsan;
+            } else if (e.value == "인천") {
+                add = incheon;
+            } else if (e.value == "전남") {
+                add = jeonnam;
+            } else if (e.value == "전북") {
+                add = jeonbuk;
+            } else if (e.value == "제주") {
+                add = jeju;
+            } else if (e.value == "충남") {
+                add = chungnam;
+            } else if (e.value == "충북") {
+                add = chungbuk;
+            }
 
-    }
-</script>
+            state.options.length = 1;
+            for (property in add) {
+                let opt = document.createElement("option");
+                opt.value = add[property];
+                opt.innerHTML = add[property];
+
+                state.appendChild(opt);
+            }
+            if(e.depth2!=undefined){
+                document.querySelector("#state").value = e.depth2;
+            }
+        }
+    </script>
 </div>
 </html>

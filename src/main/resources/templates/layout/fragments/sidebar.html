@@ -17,13 +17,6 @@
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
-        <!-- Nav Item - Dashboard -->
-<!--        <li class="nav-item active">-->
-<!--            <a class="nav-link" href="index.html">-->
-<!--                <i class="fas fa-fw fa-tachometer-alt"></i>-->
-<!--                <span>Dashboard</span></a>-->
-<!--        </li>-->
-
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -40,7 +33,7 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html" th:href="@{/member/list}">사용자 조회</a>
+                    <a class="collapse-item" name="member/list" th:href="@{/member/list}">사용자 관리</a>
                 </div>
             </div>
         </li>
@@ -54,10 +47,10 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="buttons.html" th:href="@{/adminCode/list}">영업 행정 지역 관리</a>
-                    <a class="collapse-item" href="buttons.html" th:href="@{/fare/list}">요금 정보 관리</a>
-                    <a class="collapse-item" href="buttons.html" th:href="@{/common/list}">공동사업지구 관리</a>
-                    <a class="collapse-item" href="buttons.html" th:href="@{/exceptionfare/list}">예외 요금 관리</a>
+                    <a class="collapse-item" th:href="@{/adminCode/list}">영업 행정 지역 관리</a>
+                    <a class="collapse-item" th:href="@{/fare/list}">요금 정보 관리</a>
+                    <a class="collapse-item" th:href="@{/common/list}">공동사업지구 관리</a>
+                    <a class="collapse-item" th:href="@{/exceptionfare/list}">예외 요금 관리</a>
                 </div>
             </div>
         </li>
@@ -80,21 +73,6 @@
             통계
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesStatics"
-               aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>통계 관리</span>
-            </a>
-            <div id="collapsePagesStatics" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <ul>
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <li><a class="collapse-item" href="buttons.html" th:href="@{/member/list}">실시간 통계</a></li>
-                    </div>
-                </ul>
-            </div>
-        </li>
-
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -104,11 +82,26 @@
 
     <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
     <script th:inline="javascript">
-        $(document).ready(function(){
+        renderMenu()
+        // $(document).ready(function(){
+        //
+        //     $('.collapse').find('a[href="' + document.location.pathname + '"]').addClass('active');
+        //
+        //     //alert(  $('.collapse').find('a[href="' + document.location.pathname + '"]').parentNode);
+        //     var getUrl0= window.location.href.indexOf("member/list");
+        //
+        //     if(getUrl0 != -1){
+        //         alert( $('.nav-item').find('a[name="' + document.location.pathname + '"]').val($(this).attr("href")));
+        //     }
+        // });
 
-            $('.collapse').find('a[href="' + document.location.pathname + '"]').addClass('active');
+        function renderMenu() {
 
-        });
+            $('#sideMenu>li, .child_menu li').hide();
+            $('#sideMenu .admin').show();
+            $('#sideMenu').show();
+
+        }
     </script>
 
 

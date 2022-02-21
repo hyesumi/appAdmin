@@ -19,8 +19,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
         if(session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null){
-//            log.info("미인증 사용자 요청");
-//            response.sendRedirect("/login?redirectURL="+requestURI);
             log.info("미인증 사용자 요청");
             response.setContentType("text/html; charset=utf-8");
             PrintWriter printwriter = response.getWriter();
@@ -28,6 +26,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             printwriter.flush();
             printwriter.close();
             return false;
+        }else{
+            log.info(session.getId());
         }
 
         return true;

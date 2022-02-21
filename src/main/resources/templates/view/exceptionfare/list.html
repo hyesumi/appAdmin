@@ -22,8 +22,7 @@
                                     <tbody>
                                     <tr>
                                         <th>지역명</th>
-                                        <td>
-                                            <input type="text" class="form-control" id="searchName" placeholder="">
+                                        <td><input type="text" class="form-control" id="searchName" placeholder="">
                                         </td>
                                     </tr>
                                     <tr>
@@ -58,7 +57,7 @@
                                     <th>영업지역 행정코드</th>
                                     <th>예외타입</th>
                                     <th>예외지역 이름</th>
-                                    <th>추가내용</th>
+<!--                                    <th>추가내용</th>-->
                                 </tr>
                                 </thead>
                                 <tbody id="dataList">
@@ -68,7 +67,7 @@
                                     <td><span th:text="${list.code}"></span></td>
                                     <td><span th:text="${list.type}"></span></td>
                                     <td><span th:text="${list.area}"></span></td>
-                                    <td><span th:text="${list.extraData}"></span></td>
+<!--                                    <td><span th:text="${list.extraData}"></span></td>-->
                                 </tr>
                                 </tbody>
                             </table>
@@ -96,7 +95,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">공동사업지구 등록</h4>
+                    <h4 class="modal-title" id="myModalLabel">예외요금 등록</h4>
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 </div>
                 <div class="modal-body">
@@ -110,16 +109,15 @@
                             </colgroup>
                             <tbody id="modal_tbody">
                             <tr>
-                                <th><span class="required"></span>지역</th>
+                                <th><span class="required"></span>예외 지역</th>
                                 <td colspan="3">
                                     <div class="col-sm-9">
                                         <input id="area" type="text" class="form-control" placeholder="">
                                     </div>
-                                    <button type="button" class="btn btn-primary" id="btnSearchCode">코드 조회</button>
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="required"></span>코드</th>
+                                <th><span class="required"></span>영업지역 행정코드</th>
                                 <td colspan="3">
                                     <div class="col-sm-9" style="width: 100%;">
                                         <input id="code" type="text" class="form-control" placeholder="">
@@ -127,25 +125,44 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="required"></span>추가내용</th>
+                                <th><span class="required"></span>예외타입</th>
                                 <td colspan="3">
-                                    <div class="col-sm-9" style="width: 100%;">
-                                        <textarea name="extraData" id="extraData" class="form-control" rows="12" style="width: 100% !important;" escapeXml="true"></textarea>
+                                    <div class="col-sm-9">
+                                        <select id="exceptionType">
+                                            <option value="area" selected>지역</option>
+                                            <option value="long_distance">장거리</option>
+                                            <option value="unique">기타</option>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <th><span class="required"></span>반영일</th>
-                                <td>
-                                    <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" id="effectiveTs" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
+                                <th><span class="required"></span>예외지역 이름</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9">
+                                        <select id="exceptionArea">
+                                            <option value="0">--예외지역 선택 --</option>
+                                            <option th:each="val : ${exceptionAreaList}" th:value="${val?.id}"
+                                                    th:utext="${val?.exceptionArea}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><span class="required"></span>추가내용</th>
+                                <td colspan="3">
+                                    <div class="col-sm-9">
+                                        <button type="button" id="addExtraData">추가하기</button>
+                                        <div id="boxWrap">
+                                            <span class="required">택시Type</span>
+                                            <select id="extraTaxiType">
+                                                <option value="0">--택시 Type선택 --</option>
+                                                <option value="fareType1">중형</option>
+                                                <option value="fareType2">대형,모범</option>
+                                                <option value="fareTypeW">약자</option>
+                                            </select>
                                         </div>
-                                        <input type="checkbox" id="checkbox">
-                                        <label for="checkbox">즉시시행</label>
                                     </div>
                                 </td>
                             </tr>
@@ -169,7 +186,7 @@
             <td>{{code}}</td>
             <td>{{type}}</td>
             <td>{{area}}</td>
-            <td>{{extraData}}</td>
+<!--            <td>{{extraData}}</td>-->
         </tr>
         {{else}}
         <tr>
@@ -179,13 +196,15 @@
     </script>
 
     <script type="text/javascript">
-        $(function() {
-            $('#datetimepicker1').datetimepicker();
-        });
 
         var search = {};
 
         function fnSearch() {
+            var searchName = $('#searchName').val();
+            var searchCode = $('#searchCode').val();
+
+            search.searchName = searchName;
+            search.searchCode = searchCode;
             search.currentPage = 1;
             fire_ajax_submit(search, true);
         }
@@ -194,22 +213,23 @@
             var sessionUserAuth = "[[${session.LoginMembers.role}]]";
             editType = "update";
 
-            $("h4.modal-title").text("공동사업지구 변경");
+            $("h4.modal-title").text("예외요금 변경");
 
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "/common/detail" + "?id=" + id,
+                url: "/exceptionfare/detail" + "?id=" + id,
                 success: function (data) {
                     if (sessionUserAuth != "SUPER_ADMIN") {
                         $("#btnSubmit").css("display", "none");
                     } else {
                         $("#btnSubmit").css("display", "inline-block");
                     }
-                    $("#area").val(data.areaName);
-                    $("#code").val(data.areaCode);
+                    $("#area").val(data.name);
+                    $("#code").val(data.code);
                     $("#extraData").val(data.extraData);
-                    $("#effectiveTs").val(data.effectiveTs);
+                    document.querySelector("#exceptionType").value = data.type;
+                    document.querySelector("#exceptionArea").value = data.area;
                 }, error: function (e) {
                     console.log(e);
                 }
@@ -323,7 +343,7 @@
 
             $("#btnAdd").click(function() {
                 editType = "add";
-                $("h4.modal-title").text('공동사업지구 등록');
+                $("h4.modal-title").text('예외요금 등록');
                 if (sessionUserAuth != "SUPER_ADMIN") {
                     $("#btnSubmit").css("display", "none");
                 } else {
@@ -332,9 +352,7 @@
                 $("#area").val("");
                 $("#code").val("");
                 $("#extraData").val("");
-                $("#effectiveTs").val("");
-
-
+                $("#exceptionArea").val(0);
                 $("#myModal").modal('show');
             });
 
@@ -395,13 +413,14 @@
                     areaCode : $('#code').val(),
                     extraData : $('#extraData').val(),
                     effectiveTs : $('#effectiveTs').val(),
-                    editType : editType
+                    editType : editType,
+                    extraTaxiType : $('#extraTaxiType option:selected').val(),
                 };
 
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/common/edit",
+                    url: "/exceptionfare/edit",
                     data: JSON.stringify(data),
                     dataType: 'json',
                     async : true,
@@ -438,7 +457,17 @@
                     }
                 });
             });
+
+            $("#addExtraData").click(function() {
+                $("#boxWrap").append("<p><th><span class=\"required\"></span>택시Type</th><select id=\"extraTaxiType\">\n" +
+                    "<option value=\"0\">일반</option>\n" +
+                    "<option value=\"fareTaxiType1\" selected>일반</option>\n" +
+                    "<option value=\"fareTaxiType2\">중형,모범</option></option>\n" +
+                    "<option value=\"fareTaxiTypeW\">약자</option>\n" +
+                    "</select></th></p>");
+            });
         }
     </script>
 </div>
 </html>
+

@@ -28,6 +28,15 @@ public interface AdminCodeMapper {
 
     void updateUserPassword(Member member) throws DataAccessException;
 
-    String findDetailCode(String areaName) throws DataAccessException;
+    String findDetailCode(String sidoContent, String gugunContent) throws DataAccessException;
 
+    String findTaxiType(String areaName,String taxiType) throws DataAccessException;
+
+    List<AdminCode> getFareList() throws DataAccessException;
+
+    int insertAdminCode(AdminCode adminCode) throws DataAccessException;
+
+    List<AdminCode> getAdminCode(AdminCode adminCode) throws DataAccessException;
+
+    void updateAdminCode(AdminCode adminCode) throws DataAccessException;
 }

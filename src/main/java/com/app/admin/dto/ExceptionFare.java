@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class ExceptionFare {
+public class ExceptionFare extends PagingInfo{
 
     private Long id;
     private String name;
@@ -12,5 +12,6 @@ public class ExceptionFare {
     private String type;
     private String area;
     private String extraData;
-
+    private String editType;
+    private String extraTaxiType;
 }

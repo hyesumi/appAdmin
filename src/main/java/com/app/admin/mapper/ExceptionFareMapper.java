@@ -8,16 +8,17 @@ import com.app.admin.dto.PagingInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.DataAccessException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface ExceptionFareMapper {
-    List<ExceptionFare> getExceptionFareList(PagingInfo pagingInfo) throws DataAccessException;
+    List<ExceptionFare> getExceptionFareList(ExceptionFare exceptionFare) throws DataAccessException;
 
-    int exceptionFareTotalCnt(PagingInfo pagingInfo) throws DataAccessException;
+    int exceptionFareTotalCnt(ExceptionFare exceptionFare) throws DataAccessException;
 
-    AdminCode findAdminCodeByIdx(String id) throws DataAccessException;
+    ExceptionFare findExceptionFareByIdx(String id) throws DataAccessException;
 
     void updateAuthAdminList(Member member) throws DataAccessException;
 
@@ -29,4 +30,5 @@ public interface ExceptionFareMapper {
 
     void updateUserPassword(Member member) throws DataAccessException;
 
+    public List<HashMap<String, Object>> getExceptionAreaList() throws DataAccessException;
 }

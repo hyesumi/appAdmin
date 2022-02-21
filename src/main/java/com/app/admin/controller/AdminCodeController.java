@@ -1,10 +1,8 @@
 package com.app.admin.controller;
 
 import com.app.admin.dto.AdminCode;
-import com.app.admin.dto.ExceptionFare;
 import com.app.admin.dto.PagingInfo;
 import com.app.admin.service.AdminCodeService;
-import com.app.admin.service.ExceptionFareService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,11 +32,18 @@ public class AdminCodeController {
 
         List<AdminCode> adminCodeList = adminCodeService.getAdminCodeList(adminCode);
 
+        for(AdminCode adminCode1:adminCodeList){
+            if(adminCode1.getDepth2() == null || ("").equals(adminCode1.getDepth2())){
+                adminCode1.setDepth2("전체");
+            }
+        }
+        List<AdminCode> fareList = adminCodeService.getFareList();
         model.addAttribute("currentPage", 1);
         model.addAttribute("totalSize", adminCodeService.adminCodeTotalCnt(adminCode));
         model.addAttribute("adminCodeList", adminCodeList);
         model.addAttribute("perPage", adminCode.getPerPage());
 
+        model.addAttribute("fareList", fareList);
         return "view/admincode/list";
     }
 
@@ -50,6 +55,11 @@ public class AdminCodeController {
         adminCode.setAdmcode((String)model.get("searchCode"));
 
         List<AdminCode> list = adminCodeService.getAdminCodeList(adminCode);
+        for(AdminCode adminCode1:list){
+            if(adminCode1.getDepth2() == null || ("").equals(adminCode1.getDepth2())){
+                adminCode1.setDepth2("전체");
+            }
+        }
         model.put("adminCodeList", list);
         model.put("totalSize",adminCodeService.adminCodeTotalCnt(adminCode));
         model.put("perPage", adminCode.getPerPage());
@@ -60,17 +70,42 @@ public class AdminCodeController {
     @RequestMapping(value={"/detail"}, method= RequestMethod.POST)
     public ResponseEntity<AdminCode> detailAuthManager(@RequestParam(required = false) String id) {
         AdminCode adminCode = adminCodeService.findAdminCodeByIdx(id);
+        System.out.println("id="+id);
+        System.out.println("adminCode="+adminCode);
+        if(adminCode.getDepth2() == null || ("").equals(adminCode.getDepth2())){
+            adminCode.setDepth2("전체");
+        }
+        if(adminCode.getFareType1() == null || ("").equals(adminCode.getFareType1())){
+            adminCode.setFareType1("0");
+        }
+        if(adminCode.getFareType2() == null || ("").equals(adminCode.getFareType2())){
+            adminCode.setFareType2("0");
+        }
+        if(adminCode.getFareTypeW() == null || ("").equals(adminCode.getFareTypeW())){
+            adminCode.setFareTypeW("0");
+        }
+
         return ResponseEntity.ok().body(adminCode);
 
     }
 
     @RequestMapping(value={"/detailCode"}, method= RequestMethod.POST)
-    public ResponseEntity<String> detailCodeManager(@RequestParam(required = false) String sidoContent, @RequestParam(required = false) String gugunContent) {
-        String areaName = sidoContent;
-        System.out.println(areaName);
-        String code = adminCodeService.findDetailCode(areaName);
+    public ResponseEntity<AdminCode> detailCodeManager(@RequestParam(required = false) String sidoContent, @RequestParam(required = false) String gugunContent) {
+
+        AdminCode adminCode = new AdminCode();
+        System.out.println(sidoContent);
+        String code = adminCodeService.findDetailCode(sidoContent,gugunContent);
         System.out.println(code);
-        return ResponseEntity.ok().body(code);
+        String fareTaxiType1 = adminCodeService.findTaxiType(sidoContent,"type1");
+        String fareTaxiType2 = adminCodeService.findTaxiType(sidoContent,"type2");
+        String fareTaxiTypeW = adminCodeService.findTaxiType(sidoContent,"typeW");
+
+        adminCode.setAdmcode(code);
+        adminCode.setFareType1(fareTaxiType1);
+        adminCode.setFareType2(fareTaxiType2);
+        adminCode.setFareTypeW(fareTaxiTypeW);
+
+        return ResponseEntity.ok().body(adminCode);
 
     }
 
@@ -80,12 +115,31 @@ public class AdminCodeController {
         HashMap<String,Object> map = new HashMap<>();
         map.put("message", "SUCCESS");
         try{
+            List<AdminCode> adminCodeList = adminCodeService.getAdminCode(adminCode);
             if (adminCode.getEditType().equals("add")) {
-                System.out.println("add");
+                for(AdminCode code : adminCodeList){
+                    if(code.getAdmcode().equals(adminCode.getAdmcode())){
+                        map.put("message","이미 등록된 코드입니다.");
+                        return ResponseEntity.ok().body(map);
+                    }
+                    if(code.getDepth1().equals(adminCode.getDepth1())){
+                        if(code.getDepth2().equals(adminCode.getDepth2())){
+                            map.put("message","이미 등록된 지역입니다.");
+                            return ResponseEntity.ok().body(map);
+                        }
+                    }
+                }
+
+                //System.out.println("add");
+                adminCodeService.insertAdminCode(adminCode);
+
             } else if (adminCode.getEditType().equals("update")) {
+
+                //adminCodeService.updateAdminCode(adminCode);
                 System.out.println("update");
             }
         }catch(Exception e){
+            System.out.println(e.getMessage());
             map.put("message", "등록에 실패하였습니다. 관리자에게 문의하세요");
         }
 

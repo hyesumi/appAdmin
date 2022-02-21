@@ -7,6 +7,7 @@ import com.app.admin.mapper.AdminCodeMapper;
 import com.app.admin.mapper.ExceptionFareMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,14 +18,18 @@ public class ExceptionFareService {
         this.exceptionFareMapper = exceptionFareMapper;
     }
 
-    public List<ExceptionFare> getExceptionFareList(PagingInfo pagingInfo) {
-        return exceptionFareMapper.getExceptionFareList(pagingInfo);
+    public List<ExceptionFare> getExceptionFareList(ExceptionFare exceptionFare) {
+        return exceptionFareMapper.getExceptionFareList(exceptionFare);
     }
-    public int exceptionFareTotalCnt(PagingInfo pagingInfo) {
-        return exceptionFareMapper.exceptionFareTotalCnt(pagingInfo);
+    public int exceptionFareTotalCnt(ExceptionFare exceptionFare) {
+        return exceptionFareMapper.exceptionFareTotalCnt(exceptionFare);
     }
 
-    public AdminCode findAdminCodeByIdx(String id) {
-        return exceptionFareMapper.findAdminCodeByIdx(id);
+    public ExceptionFare findExceptionFareByIdx(String id) {
+        return exceptionFareMapper.findExceptionFareByIdx(id);
+    }
+
+    public List<HashMap<String, Object>>  getExceptionAreaList() {
+        return exceptionFareMapper.getExceptionAreaList();
     }
 }

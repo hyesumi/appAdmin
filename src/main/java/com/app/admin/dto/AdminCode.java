@@ -15,5 +15,6 @@ public class AdminCode extends PagingInfo{
     private String fareTypeW;
     private String fareTypeEtc;
     private String editType;
+    private String fareTypeNm;
 
 }

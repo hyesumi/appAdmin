@@ -26,6 +26,24 @@
         limit ${perPage} OFFSET ${(currentPage-1)*perPage}
     </select>
 
+    <select id="getAdminCode" parameterType="AdminCode" resultType="AdminCode">
+        SELECT
+        idx AS id,
+        depth_1_nm AS depth1,
+        depth_2_nm AS depth2,
+        admcode,
+        fare_type_1 AS fareType1,
+        fare_type_2 AS fareType2,
+        fare_type_w AS fareTypeW,
+        fare_type_etc AS fareTypeEtc
+        FROM kstm_area_tb
+        WHERE 1=1
+    </select>
+
+    <select id="getFareList" resultType="AdminCode" >
+        SELECT fare_type AS fareTypeNm FROM taxi_fare_tb
+    </select>
+
     <select id="adminCodeTotalCnt" parameterType="AdminCode" resultType="int">
         SELECT
            count(1)
@@ -41,6 +59,7 @@
 
     <select id="findAdminCodeByIdx" resultType="AdminCode" parameterType="String">
         SELECT
+            idx AS id,
             depth_1_nm AS depth1,
             depth_2_nm AS depth2,
             admcode,
@@ -56,62 +75,56 @@
         SELECT
             admcode
         FROM kstm_area_tb
-        WHERE depth_1_nm like CONCAT('%', #{areaName}, '%')
+        WHERE depth_1_nm like CONCAT('%', #{sidoContent}, '%')
+        <if test="gugunContent != null and gugunContent != ''">
+            and depth_2_nm like CONCAT('%', #{gugunContent}, '%')
+        </if>
 
     </select>
 
-    <update id="updateAuthAdminList" parameterType="Member">
-        UPDATE
-            auth_user
-            SET user_role = #{role}
-        WHERE user_email = #{loginId}
-    </update>
+    <select id="findTaxiType" resultType="String" parameterType="String">
+        SELECT
+            fare_type
+        FROM taxi_fare_tb
+        WHERE 1=1
+        <if test="taxiType == 'type1'">
+            AND taxi_fare_nm like CONCAT('%', #{areaName}, '%') and taxi_fare_nm like CONCAT('%중형%')
+        </if>
+        <if test="taxiType == 'type2'">
+            AND taxi_fare_nm like CONCAT('%', #{areaName}, '%') and taxi_fare_nm like CONCAT('%대형%')
+        </if>
+        <if test="taxiType == 'typeW'">
+            AND taxi_fare_nm like CONCAT('%', #{areaName}, '%') and taxi_fare_nm like CONCAT('%약자%')
+        </if>
+    </select>
 
-    <insert id="insertAuthAdminList" parameterType="Member">
-        INSERT INTO auth_user
+    <insert id="insertAdminCode" parameterType="AdminCode">
+        INSERT INTO kstm_area_tb
         (
-        user_pw,
-        user_email,
-        user_name,
-        created_dt,
-        updated_dt,
-        use_yn,
-        user_role
+            depth_1_nm,
+            depth_2_nm,
+            admcode,
+            fare_type_1,
+            fare_type_2,
+            fare_type_w,
+            fare_type_etc
         )
         VALUES
-        (
-        #{password},
-        #{loginId},
-        #{name},
-        now(),
-        now(),
-        'Y',
-        #{role}
-        )
-
+            (
+                #{depth1},
+                #{depth2},
+                #{admcode},
+                #{fareType1},
+                #{fareType2},
+                #{fareTypeW},
+                #{fareTypeEtc}
+            )
     </insert>
 
-    <delete id="deleteAuthUser" parameterType="java.util.Map">
-        DELETE
-        FROM auth_user
-        WHERE user_id IN
-        <foreach collection="idxArray" item="item" index="index" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-    </delete>
-
-    <select id="checkPassword" parameterType="String" resultType="Member">
-        SELECT
-            user_email AS loginId,
-            user_pw AS password
-        FROM auth_user
-        WHERE user_email = #{loginId}
-    </select>
-
-    <update id="updateUserPassword" parameterType="Member">
+    <update id="updateAdminCode" parameterType="AdminCode">
         UPDATE
-            auth_user
-        SET user_pw = #{password}, updated_dt = now()
-        WHERE user_email = #{loginId}
+            kstm_area_tb
+        SET depth_1_nm = #{depth1},depth_2_nm = #{depth2},admcode = #{admcode},fare_type_1 = #{fareType1},fare_type_2 = #{fareType2},fare_type_w = #{fareTypeW},fare_type_etc = #{fareTypeEtc}
+        WHERE idx = #{id}
     </update>
 </mapper>
